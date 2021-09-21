@@ -12,14 +12,14 @@ class FontCollection {
   static const topicTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,
-    fontSize:  bigSize,
+    fontSize: bigSize,
     color: Color(0xFF512DA8),
   );
 
   static const topicBoldTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w700,
-    fontSize:  bigSize,
+    fontSize: bigSize,
     color: Color(0xFF512DA8),
   );
   //
@@ -65,6 +65,13 @@ class FontCollection {
     color: CollectionsColors.deepPurple,
   );
 
+  static const bodyPurpleTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: mediumSize,
+    color: CollectionsColors.deepPurple,
+  );
+
   static const smallBodyTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,
@@ -86,13 +93,13 @@ class FontCollection {
   //   color: Colors.black,
   // );
   //
-  // static const underlineButtonTextStyle = TextStyle(
-  //   fontFamily: NotoSansFont,
-  //   fontWeight: FontWeight.w400,
-  //   fontSize: regularSize,
-  //   color: Colors.black,
-  //   decoration: TextDecoration.underline,
-  // );
+  static const underlineButtonTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: regularSize,
+    color: Colors.black,
+    decoration: TextDecoration.underline,
+  );
   //
   // static const underlineSmallButtonTextStyle = TextStyle(
   //   fontFamily: NotoSansFont,

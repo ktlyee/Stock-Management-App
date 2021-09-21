@@ -1,3 +1,4 @@
+import 'package:csc344_project/inventory_page.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
@@ -19,57 +20,65 @@ class _HomePageState extends State<HomePage> {
       appBar: MainAppBar(
         appBarText: 'Home',
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Sales',
-                style: FontCollection.bodyBoldPurpleTextStyle,
-              ),
-            ),
-            buildToggleButton(),
-            buildCard(
-              Icons.info,
-              'See more detail',
-              () {},
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            children: [
               Container(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                child: LineChart(),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(5, 100, 0, 20),
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Inventory',
-                style: FontCollection.bodyBoldPurpleTextStyle,
-              ),
-            ),
-            buildCard(
-              Icons.inbox,
-              'See list of inventory',
-              () {},
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Today',
-                        style: FontCollection.bodyTextStyle,
-                      ),
-                    ),
-                    allStat(),
-                  ],
+                margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Sales',
+                  style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
               ),
-            ),
-          ],
+              buildToggleButton(),
+              buildCard(
+                Icons.info,
+                'See more detail',
+                () {},
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  child: LineChart(),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(5, 100, 0, 20),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Inventory',
+                  style: FontCollection.bodyBoldPurpleTextStyle,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 80),
+                child: buildCard(
+                  Icons.inbox,
+                  'See list of inventory',
+                  () {
+                     Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => InventoryPage()));
+                  },
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Today',
+                            style: FontCollection.bodyTextStyle,
+                          ),
+                        ),
+                        allStat(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -77,9 +86,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildCard(
       IconData icon, String navText, VoidCallback onClicked, Widget child) {
-    return Stack(
-      fit: StackFit.passthrough,
-      overflow: Overflow.visible,
+    return Column(
+      // fit: StackFit.passthrough,
+      // overflow: Overflow.visible,
       children: [
         Container(
           child: Card(
@@ -95,45 +104,40 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        Positioned(
-          bottom: -60,
-          left: 0,
-          right: 0,
-          child: GestureDetector(
-            onTap: onClicked,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(10),
-                ),
+        GestureDetector(
+          onTap: onClicked,
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(10),
               ),
-              color: CollectionsColors.lightPurple,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Icon(icon),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              navText,
-                              style: FontCollection.bodyBlackTextStyle,
-                            ),
+            ),
+            color: CollectionsColors.lightPurple,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.fromLTRB(30, 0, 20, 0),
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Icon(icon),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            navText,
+                            style: FontCollection.bodyBlackTextStyle,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      child: Icon(Icons.navigate_next),
-                    ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    child: Icon(Icons.navigate_next),
+                  ),
+                ],
               ),
             ),
           ),
@@ -251,5 +255,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
