@@ -1,3 +1,4 @@
+import 'package:csc344_project/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
         primaryColor: Color(0xFF512DA8)
       ),
-      home: HomePage(),
+      home: NavigationBar(),
     );
   }
 }

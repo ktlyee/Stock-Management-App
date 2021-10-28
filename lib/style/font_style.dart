@@ -13,14 +13,14 @@ class FontCollection {
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,
     fontSize: bigSize,
-    color: Color(0xFF512DA8),
+    color: CollectionsColors.black,
   );
 
   static const topicBoldTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w700,
     fontSize: bigSize,
-    color: Color(0xFF512DA8),
+    color: CollectionsColors.black,
   );
   //
   // static const  appbarTextStyle = TextStyle(
@@ -51,25 +51,11 @@ class FontCollection {
     color: Colors.black,
   );
 
-  static const bodyBoldTextStyle = TextStyle(
+  static const bodyBlackBoldTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w700,
     fontSize: mediumSize,
     color: Colors.black,
-  );
-
-  static const bodyBoldPurpleTextStyle = TextStyle(
-    fontFamily: RobotoFont,
-    fontWeight: FontWeight.w700,
-    fontSize: mediumSize,
-    color: CollectionsColors.deepPurple,
-  );
-
-  static const bodyPurpleTextStyle = TextStyle(
-    fontFamily: RobotoFont,
-    fontWeight: FontWeight.w400,
-    fontSize: mediumSize,
-    color: CollectionsColors.deepPurple,
   );
 
   static const smallBodyTextStyle = TextStyle(
@@ -79,11 +65,11 @@ class FontCollection {
     color: Colors.white,
   );
 
-  static const descriptionTextStyle = TextStyle(
+  static const descriptionBlackTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,
     fontSize: smallestSize,
-    color: Colors.white,
+    color: Colors.black,
   );
 
   // static const buttonTextStyle = TextStyle(
@@ -108,4 +94,51 @@ class FontCollection {
   //   color: Colors.black,
   //   decoration: TextDecoration.underline,
   // );
+
+  ///White
+
+  static const descriptionTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: smallestSize,
+    color: Colors.white,
+  );
+
+  static const descriptionBoldTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w700,
+    fontSize: smallestSize,
+    color: Colors.white,
+  );
+
+
+  ///Purple
+
+  static const topicBoldPurpleTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w700,
+    fontSize: bigSize,
+    color: CollectionsColors.deepPurple,
+  );
+
+  static const topicPurpleTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: bigSize,
+    color: CollectionsColors.deepPurple,
+  );
+
+  static const bodyBoldPurpleTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w700,
+    fontSize: mediumSize,
+    color: CollectionsColors.deepPurple,
+  );
+
+  static const bodyPurpleTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: mediumSize,
+    color: CollectionsColors.deepPurple,
+  );
 }
