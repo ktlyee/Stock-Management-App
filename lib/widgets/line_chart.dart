@@ -29,8 +29,8 @@ class LineChart extends StatelessWidget {
               axisLabelColor: Colors.white,
               crosshairLineColor: CollectionsColors.yellow,
               crosshairLabelColor: Colors.white,
-              majorGridLineColor: CollectionsColors.deepPurple,
-              plotAreaBorderColor: CollectionsColors.deepPurple,
+              majorGridLineColor: CollectionsColors.purple,
+              plotAreaBorderColor: CollectionsColors.purple,
             ),
           ),
           child: SfCartesianChart(
