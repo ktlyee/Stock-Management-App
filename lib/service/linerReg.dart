@@ -11,14 +11,11 @@ import 'dart:io';
   // var dataFrame;
   // LinearReg({this.dataFrame});
 
-  Future m
-ain() async {
+  Future main() async {
     // Let's create a dataframe with fitting data, let's assume, that the target
     // column is the fifth column (column with index 4)
-    print('Enter to continue..');
-    String? dataIp = stdin.readLineSync();
     final dataFrame = DataFrame(<Iterable<num>>[
-      [2, 3, 4, 5, 4.3],
+      [2, 3, 4, 5, 6],
       [12, 32, 1, 3, 3.5],
       [27, 3, 0, 59, 2.1],
     ], headerExists: false);
@@ -31,6 +28,9 @@ ain() async {
 
     // Let's see adjusted coefficients
     print('Regression coefficients: ${regressor.coefficients}');
+    print('Learning Rate: ${regressor.learningRateType}');
+    //print(regressor.predict(dataFrame).toMatrix());
+    //DataFrame predict(DataFrame testFeatures);
   }
 //}
 
