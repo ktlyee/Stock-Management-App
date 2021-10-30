@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
         primaryColor: Color(0xFF512DA8)
       ),
-      home: NavigationBar(),
+      home: Container(
+        child: NavigationBar(),
+      ),
     );
   }
 }

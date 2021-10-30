@@ -40,6 +40,8 @@ class _NavigationBarState extends State<NavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: _pageWidget.elementAt(_selectedIndex),
       floatingActionButton: Container(
