@@ -5,11 +5,10 @@ import 'dart:io';
 /// A simple usage example using synthetic data. To see more complex examples,
 /// please, visit other directories in this folder
 
-
 //class LinearReg{
 
-  // var dataFrame;
-  // LinearReg({this.dataFrame});
+// var dataFrame;
+// LinearReg({this.dataFrame});
 
   Future main() async {
     // Let's create a dataframe with fitting data, let's assume, that the target
@@ -20,11 +19,11 @@ import 'dart:io';
       [27, 3, 0, 59, 2.1],
     ], headerExists: false);
 
-    // Let's create a regressor itself and train it
-    final regressor = LinearRegressor(dataFrame, 'col_4',
-        iterationsLimit: 100,
-        initialLearningRate: 0.0005,
-        learningRateType: LearningRateType.constant);
+  // Let's create a regressor itself and train it
+  final regressor = LinearRegressor(dataFrame, 'col_4',
+      iterationsLimit: 100,
+      initialLearningRate: 0.0005,
+      learningRateType: LearningRateType.constant);
 
     // Let's see adjusted coefficients
     print('Regression coefficients: ${regressor.coefficients}');
