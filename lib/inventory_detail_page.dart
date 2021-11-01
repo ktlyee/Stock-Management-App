@@ -1,8 +1,11 @@
+import 'package:csc344_project/model/product.dart';
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/data_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InventoryDetailPage extends StatefulWidget {
   InventoryDetailPage({Key? key}) : super(key: key);
@@ -12,8 +15,15 @@ class InventoryDetailPage extends StatefulWidget {
 }
 
 class _InventoryDetailPageState extends State<InventoryDetailPage> {
-  String info =
-      'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.';
+  Product product = Product();
+
+  @override
+  void initState() {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+    product = productNotifier.currentProduct;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,12 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
       appBar: MainAppBar(
         appBarText: 'Product Detail',
         action: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert, color: CollectionsColors.deepPurple,))
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_vert,
+                color: CollectionsColors.deepPurple,
+              ))
         ],
       ),
       body: SingleChildScrollView(
@@ -33,9 +48,11 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: Image.asset(
-                        'assets/images/vegetables.jpg',
-                      ),
+                      child: product.image != 'no image'
+                          ? Image.network(product.image)
+                          : Image.asset(
+                              'assets/images/vegetables.jpg',
+                            ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 20),
@@ -64,15 +81,15 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          showAmount('Cost', '25.0', 'per unit'),
-                          showAmount('Amount', '40', 'bath'),
-                          showAmount('Weight', '40', 'gram'),
+                          showAmount('Cost', product.cost, 'per unit'),
+                          showAmount('Amount', product.amount, 'baht'),
+                          showAmount('Price', product.price, 'baht'),
                         ],
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 30),
-                      child: showInformation('Product Detail', info),
+                      child: showInformation('Product Detail', product.detail),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 30),
@@ -87,7 +104,8 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                           ),
                           Container(
                             alignment: Alignment.topLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 20),
                             child: Text(
                               '*Product sales statistics for the last 7 days ',
                               style: FontCollection.descriptionBlackTextStyle,
@@ -119,14 +137,14 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
           alignment: Alignment.topLeft,
           padding: EdgeInsets.only(bottom: 10),
           child: Text(
-            '#0002',
+            '#${product.productId}',
             style: FontCollection.bodyBlackTextStyle,
           ),
         ),
         Container(
           alignment: Alignment.bottomLeft,
           child: Text(
-            'Cucumber',
+            product.name,
             style: FontCollection.topicBoldTextStyle,
           ),
         ),

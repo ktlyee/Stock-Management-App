@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/model/soldItem.dart';
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
 
 // class Database {
@@ -35,4 +37,19 @@ Future<void> getSoldItems(SoldItemsNotifier soldItemsNotifier) async {
   });
 
   soldItemsNotifier.soldList = _soldItemList;
+}
+
+Future<void> getProducts(ProductNotifier productNotifier) async {
+  QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+      .collection('products')
+      .orderBy('productId', descending: false)
+      .get();
+
+  List<Product> _productList = [];
+  snapshot.docs.forEach((document) {
+    Product product = Product.fromMap(document.data());
+    _productList.add(product);
+  });
+
+  productNotifier.productList = _productList;
 }

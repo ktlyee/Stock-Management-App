@@ -1,3 +1,4 @@
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/widgets/bottom_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,7 +13,8 @@ void main() async {
       providers: [
         // StreamProvider<List<Income>>.value(
         //     value: Database().incomes, initialData: [])
-        ChangeNotifierProvider(create: (context) => SoldItemsNotifier())
+        ChangeNotifierProvider(create: (context) => SoldItemsNotifier()),
+        ChangeNotifierProvider(create: (context) => ProductNotifier())
       ],
       child: MyApp(),
     ),

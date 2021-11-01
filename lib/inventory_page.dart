@@ -1,8 +1,11 @@
 import 'package:csc344_project/inventory_detail_page.dart';
+import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
+import 'package:provider/provider.dart';
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({Key? key}) : super(key: key);
@@ -12,6 +15,14 @@ class InventoryPage extends StatefulWidget {
 }
 
 class _InventoryPageState extends State<InventoryPage> {
+  @override
+  void initState() {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+    getProducts(productNotifier);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,88 +43,81 @@ class _InventoryPageState extends State<InventoryPage> {
   }
 
   Widget buildCard(String productId, String productName) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => InventoryDetailPage(),
-            ),
-          );
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: productNotifier.productList.length,
+        itemBuilder: (context, index) {
+          final product = productNotifier.productList[index];
+          return GestureDetector(
+              onTap: () {
+                productNotifier.currentProduct =
+                    productNotifier.productList[index];
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => InventoryDetailPage(),
+                  ),
+                );
+              },
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: CollectionsColors.lightPurple,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: product.image != 'no image'
+                              ? NetworkImage(product.image)
+                              : AssetImage('assets/images/vegetables.jpg')
+                                  as ImageProvider,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                          child: Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  product.productId,
+                                  style: FontCollection.bodyPurpleTextStyle,
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(top: 5),
+                                child: Text(
+                                  product.name,
+                                  style: FontCollection.bodyBlackBoldTextStyle,
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(top: 5),
+                                alignment: Alignment.bottomRight,
+                                child: Text(
+                                  'see detail',
+                                  style:
+                                      FontCollection.underlineButtonTextStyle,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ));
         },
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          color: CollectionsColors.lightPurple,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/images/vegetables.jpg'),
-                      // NetworkImage(),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30,10,10,10),
-                    child: Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            productId,
-                            style: FontCollection.bodyPurpleTextStyle,
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            productName,
-                            style: FontCollection.bodyBlackBoldTextStyle,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(top: 5),
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            'see detail',
-                            style: FontCollection.underlineButtonTextStyle,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // child: ListTile(
-          //   leading: Icon(Icons.album, size: 70),
-          //   title: Text(
-          //     productId,
-          //     style: FontCollection.bodyPurpleTextStyle,
-          //   ),
-          //   subtitle: Text(
-          //     productName,
-          //     style: FontCollection.bodyBoldTextStyle,
-          //   ),
-          //   // trailing: Container(
-          //   //   alignment: Alignment.bottomRight,
-          //   //   child: TextButton(
-          //   //     onPressed: () {},
-          //   //     child: Text(
-          //   //       'see detail',
-          //   //       style: FontCollection.underlineButtonTextStyle,
-          //   //     ),
-          //   //   ),
-          //   // ),
-        ),
       ),
     );
   }
