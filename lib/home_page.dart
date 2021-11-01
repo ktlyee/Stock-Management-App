@@ -1,11 +1,13 @@
-import 'package:csc344_project/inventory_page.dart';
+import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/sale_page.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/line_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    SoldItemsNotifier soldItem =
+        Provider.of<SoldItemsNotifier>(context, listen: false);
+    getSoldItems(soldItem);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -41,7 +51,11 @@ class _HomePageState extends State<HomePage> {
                 Icons.info,
                 'See more detail',
                 () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SalesPage(),),);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SalesPage(),
+                    ),
+                  );
                 },
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
@@ -55,7 +69,8 @@ class _HomePageState extends State<HomePage> {
                   'Income',
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
-              ), buildToggleButton(),
+              ),
+              buildToggleButton(),
             ],
           ),
         ),
