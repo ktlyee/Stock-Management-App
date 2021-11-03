@@ -1,3 +1,4 @@
+import 'package:csc344_project/add_order.dart';
 import 'package:csc344_project/home_page.dart';
 import 'package:csc344_project/inventory_page.dart';
 import 'package:csc344_project/style/color.dart';
@@ -48,7 +49,9 @@ class _NavigationBarState extends State<NavigationBar> {
         width: 70,
         height: 70,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddOrderPage(),),);
+          },
           backgroundColor: CollectionsColors.yellow,
           child: Icon(
             Icons.list_alt,

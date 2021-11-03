@@ -67,6 +67,7 @@ class BuildTextField extends StatefulWidget {
     this.maxLine,
     this.onSaved,
     this.initialValue,
+    this.iconData,
   }) : super(key: key);
 
   final String? labelText;
@@ -80,6 +81,7 @@ class BuildTextField extends StatefulWidget {
   final int? maxLine;
   final String? Function(String?)? onSaved;
   final String? initialValue;
+  final IconData? iconData;
 
   @override
   _BuildTextFieldState createState() => _BuildTextFieldState();
@@ -111,6 +113,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: CollectionsColors.purple, width: 2.0),
         ),
+          suffixIcon: Icon(widget.iconData),
       ),
       initialValue: widget.initialValue,
       keyboardType: widget.textInputType,
@@ -119,6 +122,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
       onSaved: widget.onSaved!,
       maxLength: widget.maxLength,
       maxLines: widget.maxLine,
+
     );
   }
 }

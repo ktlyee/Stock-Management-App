@@ -44,6 +44,13 @@ class FontCollection {
     color: Colors.white,
   );
 
+  static const bodyBoldTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w700,
+    fontSize: mediumSize,
+    color: Colors.white,
+  );
+
   static const bodyBlackTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,
