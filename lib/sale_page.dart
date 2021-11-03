@@ -63,6 +63,7 @@ class _SalesPageState extends State<SalesPage> {
                 child: BuildButton(
                   onPressed: () {},
                   text: 'See sales history',
+                  width: MediaQuery.of(context).size.width,
                 ),
               ),
             ],

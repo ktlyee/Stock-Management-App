@@ -42,15 +42,32 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
                 alignment: Alignment.topLeft,
                 child: Text(
+                  'Income',
+                  style: FontCollection.bodyBoldPurpleTextStyle,
+                ),
+              ),
+              buildToggleButton(isSelected),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: CollectionsColors.purple,
+                ),
+                child: LineChart(),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                alignment: Alignment.topLeft,
+                child: Text(
                   'Sales',
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
               ),
-              buildToggleButton(),
+              buildToggleButton(isSelected2),
               buildCard(
                 Icons.info,
                 'See more detail',
-                () {
+                    () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SalesPage(),
@@ -62,15 +79,6 @@ class _HomePageState extends State<HomePage> {
                   child: LineChart(),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.fromLTRB(5, 60, 0, 20),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Income',
-                  style: FontCollection.bodyBoldPurpleTextStyle,
-                ),
-              ),
-              buildToggleButton(),
             ],
           ),
         ),
@@ -191,9 +199,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<bool> isSelected = [false, false, false];
+  List<bool> isSelected = [true, false, false];
+  List<bool> isSelected2 = [true, false, false];
 
-  Widget buildToggleButton() {
+  Widget buildToggleButton(List<bool> isSelected) {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(

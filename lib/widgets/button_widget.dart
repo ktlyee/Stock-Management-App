@@ -3,16 +3,17 @@ import 'package:csc344_project/style/font_style.dart';
 import 'package:flutter/material.dart';
 
 class BuildButton extends StatelessWidget {
-  BuildButton({Key? key, required this.onPressed, required this.text})
+  BuildButton({Key? key, required this.onPressed, required this.text, this.width})
       : super(key: key);
 
   final VoidCallback onPressed;
   final String text;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: width != null ? MediaQuery.of(context).size.width : width,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(

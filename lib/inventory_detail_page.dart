@@ -169,7 +169,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
               Container(
                 padding: EdgeInsets.only(right: 10),
                 child: Text(
-                  '20',
+                  '98',
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
               ),

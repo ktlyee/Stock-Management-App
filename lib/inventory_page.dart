@@ -1,3 +1,4 @@
+import 'package:csc344_project/add_product.dart';
 import 'package:csc344_project/inventory_detail_page.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/service/database.dart';
@@ -38,6 +39,22 @@ class _InventoryPageState extends State<InventoryPage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AddProductPage(),
+                ),
+              );
+            },
+            backgroundColor: CollectionsColors.yellow,
+            child: Icon(
+              Icons.add,
+              color: Colors.black,
+            )),
       ),
     );
   }
