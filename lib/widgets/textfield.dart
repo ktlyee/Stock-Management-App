@@ -5,7 +5,7 @@ class BuildPlainTextField extends StatefulWidget {
   BuildPlainTextField({
     Key? key,
     // required this.textEditingController,
-    required this.hintText,
+    this.hintText,
     this.initialValue,
     required this.validator,
     required this.onSaved,
@@ -13,7 +13,7 @@ class BuildPlainTextField extends StatefulWidget {
   }) : super(key: key);
 
   // final TextEditingController textEditingController;
-  final String hintText;
+  final String? hintText;
   final String? initialValue;
   final String? Function(String?) validator;
   final String? Function(String?) onSaved;
@@ -58,7 +58,7 @@ class BuildTextField extends StatefulWidget {
     Key? key,
     this.labelText,
     this.textEditingController,
-    required this.hintText,
+    this.hintText,
     this.errorText,
     required this.validator,
     this.textInputType,
@@ -72,7 +72,7 @@ class BuildTextField extends StatefulWidget {
 
   final String? labelText;
   final TextEditingController? textEditingController;
-  final String hintText;
+  final String? hintText;
   final String? errorText;
   final String? Function(String?) validator;
   final TextInputType? textInputType;
@@ -113,7 +113,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: CollectionsColors.purple, width: 2.0),
         ),
-          suffixIcon: Icon(widget.iconData),
+        suffixIcon: Icon(widget.iconData),
       ),
       initialValue: widget.initialValue,
       keyboardType: widget.textInputType,
@@ -122,7 +122,6 @@ class _BuildTextFieldState extends State<BuildTextField> {
       onSaved: widget.onSaved!,
       maxLength: widget.maxLength,
       maxLines: widget.maxLine,
-
     );
   }
 }

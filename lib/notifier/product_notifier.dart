@@ -21,4 +21,9 @@ class ProductNotifier with ChangeNotifier {
     _currentProduct = product;
     notifyListeners();
   }
+
+  addProduct(Product product) {
+    _productList.add(product);
+    notifyListeners();
+  }
 }

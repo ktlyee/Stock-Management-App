@@ -46,7 +46,7 @@ class _InventoryPageState extends State<InventoryPage> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AddProductPage(),
+                  builder: (context) => AddProductPage(isUpdating: false),
                 ),
               );
             },

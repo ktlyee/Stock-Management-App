@@ -59,27 +59,29 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
   productNotifier.productList = _productList;
 }
 
-uploadProductAndImage(Product product, bool isUpdating, File localFile,
-    Function productUploaded) async {
-  if (localFile != null) {
-    var fileExtension = path.extension(localFile.path);
-    var uuid = Uuid().v4();
+uploadProductAndImage(
+    Product product, bool isUpdating, Function productUploaded) async {
+  // if (localFile != null) {
+  //   var fileExtension = path.extension(localFile.path);
+  //   var uuid = Uuid().v4();
 
-    final Reference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child('food/$uuid$fileExtension');
+  //   final Reference firebaseStorageRef =
+  //       FirebaseStorage.instance.ref().child('products/$uuid$fileExtension');
 
-    await firebaseStorageRef.putFile(localFile).catchError((onError) {
-      print(onError);
-      return false;
-    });
+  //   await firebaseStorageRef.putFile(localFile).catchError((onError) {
+  //     print(onError);
+  //     return false;
+  //   });
 
-    String imageUrl = await firebaseStorageRef.getDownloadURL();
+  //   String imageUrl = await firebaseStorageRef.getDownloadURL();
 
-    _uploadProduct(product, isUpdating, productUploaded, imageUrl);
-  } else {
-    String imageUrl = '';
-    _uploadProduct(product, isUpdating, productUploaded, imageUrl);
-  }
+  //   _uploadProduct(product, isUpdating, productUploaded, imageUrl);
+  // } else {
+  //   String imageUrl = '';
+  //   _uploadProduct(product, isUpdating, productUploaded, imageUrl);
+  // }
+  String imageUrl = '';
+  _uploadProduct(product, isUpdating, productUploaded, imageUrl);
 }
 
 _uploadProduct(Product product, bool isUpdating, Function productUploaded,

@@ -2,11 +2,11 @@ class Product {
   String documentId = '';
   String productId = '';
   String name = '';
-  String price = '';
+  String price = '0.00';
   String detail = '';
-  String cost = '';
-  String amount = '';
-  String image = 'no image';
+  String cost = '0.00';
+  String amount = '0.00';
+  String image = '';
 
   Product();
 

@@ -3,7 +3,8 @@ import 'package:csc344_project/style/font_style.dart';
 import 'package:flutter/material.dart';
 
 class BuildButton extends StatelessWidget {
-  BuildButton({Key? key, required this.onPressed, required this.text, this.width})
+  BuildButton(
+      {Key? key, required this.onPressed, required this.text, this.width})
       : super(key: key);
 
   final VoidCallback onPressed;
@@ -15,15 +16,14 @@ class BuildButton extends StatelessWidget {
     return Container(
       width: width != null ? MediaQuery.of(context).size.width : width,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           primary: CollectionsColors.yellow,
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
             text,
             style: FontCollection.bodyBlackTextStyle,
