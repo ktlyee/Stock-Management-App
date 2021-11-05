@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/model/soldItem.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
+import 'package:uuid/uuid.dart';
 
 // class Database {
 //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -52,4 +57,47 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
   });
 
   productNotifier.productList = _productList;
+}
+
+uploadProductAndImage(Product product, bool isUpdating, File localFile,
+    Function productUploaded) async {
+  if (localFile != null) {
+    var fileExtension = path.extension(localFile.path);
+    var uuid = Uuid().v4();
+
+    final Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('food/$uuid$fileExtension');
+
+    await firebaseStorageRef.putFile(localFile).catchError((onError) {
+      print(onError);
+      return false;
+    });
+
+    String imageUrl = await firebaseStorageRef.getDownloadURL();
+
+    _uploadProduct(product, isUpdating, productUploaded, imageUrl);
+  } else {
+    String imageUrl = '';
+    _uploadProduct(product, isUpdating, productUploaded, imageUrl);
+  }
+}
+
+_uploadProduct(Product product, bool isUpdating, Function productUploaded,
+    String imageUrl) async {
+  CollectionReference productRef = firebaseFirestore.collection('products');
+
+  if (imageUrl != '') {
+    product.image = imageUrl;
+  }
+
+  if (isUpdating) {
+    await productRef.doc(product.documentId).update(product.toMap());
+    productUploaded(product);
+  } else {
+    DocumentReference documentref = await productRef.add(product.toMap());
+
+    product.documentId = documentref.id;
+    await documentref.set(product.toMap(), SetOptions(merge: true));
+    productUploaded(product);
+  }
 }

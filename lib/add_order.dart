@@ -115,7 +115,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(bottom: 5),
-          padding: EdgeInsets.fromLTRB(20,0,20,0),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -137,7 +137,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
         );
       },
       separatorBuilder: (BuildContext context, int index) {
-        return Divider(thickness: 2,);
+        return Divider(
+          thickness: 2,
+        );
       },
     );
   }
