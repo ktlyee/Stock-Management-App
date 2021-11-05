@@ -31,7 +31,6 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   void initState() {
     _currentProduct = Product();
-    // _imageUrl = _currentProduct!.image;
     super.initState();
   }
 
@@ -54,7 +53,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _currentProduct!.productId = '00${productNotifier.productList.length + 1}';
 
     uploadProductAndImage(
-        _currentProduct!, widget.isUpdating, _onUploadedProduct);
+        _currentProduct!, widget.isUpdating, _onUploadedProduct, _imageFile!);
   }
 
   getLocalImage() async {
