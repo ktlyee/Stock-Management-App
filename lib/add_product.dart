@@ -51,6 +51,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _formKey.currentState?.save();
 
     _currentProduct!.productId = '00${productNotifier.productList.length + 1}';
+    _currentProduct!.category = 'Vegetable';
 
     uploadProductAndImage(
         _currentProduct!, widget.isUpdating, _onUploadedProduct, _imageFile!);
