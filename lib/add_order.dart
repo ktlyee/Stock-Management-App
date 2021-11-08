@@ -1,4 +1,3 @@
-import 'package:csc344_project/home_page.dart';
 import 'package:csc344_project/model/soldItem.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/service/database.dart';
@@ -33,7 +32,12 @@ class _AddOrderPageState extends State<AddOrderPage> {
         Provider.of<ProductNotifier>(context, listen: false);
     productNotifier.productList.forEach((product) {
       amountOfEachProduct.add(0);
-      soldProducts.add({'name': product.name, 'amount': 0, 'totalPrice': 0});
+      soldProducts.add({
+        'docId': product.documentId,
+        'name': product.name,
+        'amount': 0,
+        'totalPrice': 0
+      });
       if (categories.contains(product.category)) {
       } else {
         categories.add(product.category);
@@ -110,6 +114,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   width: MediaQuery.of(context).size.width,
                   onPressed: () {
                     soldProducts.removeWhere((p) => p['amount'] == 0);
+                    soldProducts.forEach((product) {
+                      addSoldProductInEachDocument(product, date);
+                    });
+
                     soldItems.date = date;
                     soldItems.totalIncome = totalIncome;
                     soldItems.products = soldProducts;

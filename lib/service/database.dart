@@ -43,7 +43,6 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
 }
 
 // Add product
-
 uploadProductAndImage(Product product, bool isUpdating,
     Function productUploaded, File localFile) async {
   if (localFile != null) {
@@ -89,10 +88,22 @@ _uploadProduct(Product product, bool isUpdating, Function productUploaded,
 }
 
 // Add sold products
-
 addSoldProducts(SoldItem soldItem, String month) async {
   CollectionReference soldItemRef = firebaseFirestore.collection(month);
 
   DocumentReference documentRef = await soldItemRef.add(soldItem.toMap());
   await documentRef.set(soldItem.toMap(), SetOptions(merge: true));
+}
+
+addSoldProductInEachDocument(final soldProduct, String date) async {
+  CollectionReference productRef = firebaseFirestore
+      .collection('products')
+      .doc(soldProduct['docId'])
+      .collection('sold_products');
+
+  DocumentReference documentRef = await productRef.add({
+    'date': date,
+    'amount': soldProduct['amount'],
+    'totalPrice': soldProduct['totalPrice']
+  });
 }
