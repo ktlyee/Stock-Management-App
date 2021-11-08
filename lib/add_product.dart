@@ -197,8 +197,8 @@ class _AddProductPageState extends State<AddProductPage> {
 
   showImage() {
     if (_imageUrl == '' && _imageFile == null) {
-      return Image.network(
-        'https://www.testingxperts.com/wp-content/uploads/2019/02/placeholder-img.jpg',
+      return Image.asset(
+        'assets/images/placeholder-img.jpg',
         fit: BoxFit.cover,
       );
     } else if (_imageFile != null) {
