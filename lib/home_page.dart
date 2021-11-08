@@ -1,3 +1,4 @@
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/sale_page.dart';
 import 'package:csc344_project/service/database.dart';
@@ -19,9 +20,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
     SoldItemsNotifier soldItem =
         Provider.of<SoldItemsNotifier>(context, listen: false);
     getSoldItems(soldItem);
+    getProducts(productNotifier);
     super.initState();
   }
 
@@ -67,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               buildCard(
                 Icons.info,
                 'See more detail',
-                    () {
+                () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SalesPage(),

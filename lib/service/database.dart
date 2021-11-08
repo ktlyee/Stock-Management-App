@@ -9,23 +9,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart' as path;
 import 'package:uuid/uuid.dart';
 
-// class Database {
-//   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-
-//   Stream<List<Income>> get incomes {
-//     return firebaseFirestore
-//         .collection('November')
-//         .orderBy('day', descending: false)
-//         .limitToLast(3)
-//         .snapshots()
-//         .map((event) => event.docs
-//             .map((DocumentSnapshot<Map<String, dynamic>> snapshot) => Income(
-//                 day: snapshot.data()!['day'],
-//                 totalIncome: snapshot.data()!['totalIncome']))
-//             .toList());
-//   }
-// }
-
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
 Future<void> getSoldItems(SoldItemsNotifier soldItemsNotifier) async {
@@ -59,6 +42,8 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
   productNotifier.productList = _productList;
 }
 
+// Add product
+
 uploadProductAndImage(Product product, bool isUpdating,
     Function productUploaded, File localFile) async {
   if (localFile != null) {
@@ -76,17 +61,18 @@ uploadProductAndImage(Product product, bool isUpdating,
     String url = await firebaseStorageRef.getDownloadURL();
 
     _uploadProduct(product, isUpdating, productUploaded, url);
-  } else {
-    String url = '';
-    _uploadProduct(product, isUpdating, productUploaded, url);
   }
+  // else {
+  //   String url = '';
+  //   _uploadProduct(product, isUpdating, productUploaded, url);
+  // }
 }
 
 _uploadProduct(Product product, bool isUpdating, Function productUploaded,
     String imageUrl) async {
   CollectionReference productRef = firebaseFirestore.collection('products');
 
-  if (imageUrl != '') {
+  if (imageUrl != null) {
     product.image = imageUrl;
   }
 
@@ -100,4 +86,13 @@ _uploadProduct(Product product, bool isUpdating, Function productUploaded,
     await documentref.set(product.toMap(), SetOptions(merge: true));
     productUploaded(product);
   }
+}
+
+// Add sold products
+
+addSoldProducts(SoldItem soldItem, String month) async {
+  CollectionReference soldItemRef = firebaseFirestore.collection(month);
+
+  DocumentReference documentRef = await soldItemRef.add(soldItem.toMap());
+  await documentRef.set(soldItem.toMap(), SetOptions(merge: true));
 }

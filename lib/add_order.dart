@@ -1,3 +1,7 @@
+import 'package:csc344_project/home_page.dart';
+import 'package:csc344_project/model/soldItem.dart';
+import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
@@ -5,6 +9,7 @@ import 'package:csc344_project/widgets/button_widget.dart';
 import 'package:csc344_project/widgets/stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddOrderPage extends StatefulWidget {
   const AddOrderPage({Key? key}) : super(key: key);
@@ -14,6 +19,28 @@ class AddOrderPage extends StatefulWidget {
 }
 
 class _AddOrderPageState extends State<AddOrderPage> {
+  List categories = [];
+  List amountOfEachProduct = [];
+  List<Map<String, dynamic>> soldProducts = [];
+  int totalIncome = 0;
+  String date = DateFormat('dd MMM yyyy').format(DateTime.now()).toString();
+  SoldItem soldItems = SoldItem();
+
+  @override
+  void initState() {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+    productNotifier.productList.forEach((product) {
+      amountOfEachProduct.add(0);
+      soldProducts.add({'name': product.name, 'amount': 0, 'totalPrice': 0});
+      if (categories.contains(product.category)) {
+      } else {
+        categories.add(product.category);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +62,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: ListTile(
                   onTap: () {},
                   title: Text(
-                    DateFormat('dd MMM yyyy').format(DateTime.now()).toString(),
+                    date,
                     style: FontCollection.bodyBlackTextStyle,
                   ),
                   trailing: Icon(
@@ -49,11 +76,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: categories.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 10),
-                      // padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: CollectionsColors.purple,
@@ -62,13 +88,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         collapsedIconColor: CollectionsColors.white,
                         iconColor: CollectionsColors.white,
                         title: Text(
-                          'Vegetable',
+                          categories[index],
                           style: FontCollection.bodyBoldTextStyle,
                         ),
                         children: [
                           Container(
                             color: CollectionsColors.white,
-                            child: listData('Cabbage', 60),
+                            child: listData(categories[index]),
                           ),
                         ],
                       ),
@@ -81,7 +107,24 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: BuildButton(
                   text: 'Submit',
                   width: MediaQuery.of(context).size.width,
-                  onPressed: () {},
+                  onPressed: () {
+                    soldProducts.removeWhere((p) => p['amount'] == 0);
+
+                    soldItems.date = date;
+                    soldItems.totalIncome = totalIncome;
+                    soldItems.products = soldProducts;
+
+                    addSoldProducts(
+                      soldItems,
+                      date.characters.getRange(3, 6).toString(),
+                    );
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -91,27 +134,51 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
   }
 
-  int amount = 1;
+  void handleIncreaseAmount(int index, String priceProduct) {
+    int price = int.parse(priceProduct);
 
-  void handleIncreaseAmount() {
     setState(() {
-      amount += 1;
+      amountOfEachProduct[index] += 1;
+      totalIncome += price;
     });
+
+    soldProducts[index].update('amount', (value) => amountOfEachProduct[index]);
+    soldProducts[index]
+        .update('totalPrice', (value) => price * amountOfEachProduct[index]);
   }
 
-  void handleDecreaseAmount() {
-    if (amount > 0) {
+  void handleDecreaseAmount(int index, String priceProduct) {
+    int price = int.parse(priceProduct);
+
+    if (amountOfEachProduct[index] > 0) {
       setState(() {
-        amount -= 1;
+        amountOfEachProduct[index] -= 1;
+        totalIncome -= price;
       });
+      soldProducts[index]
+          .update('amount', (value) => amountOfEachProduct[index]);
+      soldProducts[index]
+          .update('totalPrice', (value) => price * amountOfEachProduct[index]);
+    } else {
+      soldProducts[index].update('amount', (value) => 0);
+      soldProducts[index].update('totalPrice', (value) => 0);
     }
   }
 
-  Widget listData(String pName, double pNumber) {
+  Widget listData(String category) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+    List products = [];
+
+    productNotifier.productList.forEach((product) {
+      if (product.category == category) {
+        products.add(product.name);
+      }
+    });
+
     return ListView.separated(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 3,
+      itemCount: products.length,
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(bottom: 5),
@@ -121,16 +188,18 @@ class _AddOrderPageState extends State<AddOrderPage> {
             children: [
               Container(
                 child: Text(
-                  pName,
+                  products[index],
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                   child: CustomStepper(
-                value: amount,
+                value: amountOfEachProduct[index],
                 iconSize: 25,
-                decreaseAmount: handleDecreaseAmount,
-                increaseAmount: handleIncreaseAmount,
+                decreaseAmount: () => handleDecreaseAmount(
+                    index, productNotifier.productList[index].price),
+                increaseAmount: () => handleIncreaseAmount(
+                    index, productNotifier.productList[index].price),
               )),
             ],
           ),

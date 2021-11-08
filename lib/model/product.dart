@@ -7,6 +7,7 @@ class Product {
   String cost = '0.00';
   String amount = '0.00';
   String image = '';
+  String category = '';
 
   Product();
 
@@ -19,6 +20,7 @@ class Product {
     cost = data['cost'];
     amount = data['amount'];
     image = data['image'];
+    category = data['category'];
   }
 
   Map<String, dynamic> toMap() {
@@ -30,7 +32,8 @@ class Product {
       'detail': detail,
       'cost': cost,
       'amount': amount,
-      'image': image
+      'image': image,
+      'category': category
     };
   }
 }
