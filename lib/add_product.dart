@@ -88,30 +88,46 @@ class _AddProductPageState extends State<AddProductPage> {
                   width: 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    color: CollectionsColors.lightPurple,
                   ),
-                  child: SizedBox(
-                    child: showImage(),
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: FloatingActionButton(
-                      onPressed: () => getLocalImage(),
-                      backgroundColor: CollectionsColors.lightPurple,
-                      child: Center(
-                        child: Icon(
-                          Icons.add,
-                          color: CollectionsColors.black,
-                          size: 50,
+                  child: (_imageUrl == '' && _imageFile == null)
+                      ? GestureDetector(
+                          onTap: () => getLocalImage(),
+                          child: Icon(
+                            Icons.add,
+                            size: 50,
+                            color: CollectionsColors.black,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () => getLocalImage(),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: showImage(),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Colors.white, width: 3),
+                                    color: CollectionsColors.yellow,
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: CollectionsColors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 30),
@@ -197,14 +213,20 @@ class _AddProductPageState extends State<AddProductPage> {
 
   showImage() {
     if (_imageUrl == '' && _imageFile == null) {
-      return Image.asset(
+      return AssetImage(
         'assets/images/placeholder-img.jpg',
-        fit: BoxFit.cover,
+        // fit: BoxFit.cover,
       );
     } else if (_imageFile != null) {
-      return Image.file(_imageFile!, fit: BoxFit.cover);
+      return FileImage(
+        _imageFile!,
+        // fit: BoxFit.cover,
+      );
     } else if (_imageUrl != '') {
-      return Image.network(_imageUrl, fit: BoxFit.cover);
+      return NetworkImage(
+        _imageUrl,
+        // fit: BoxFit.cover,
+      );
     }
   }
 
