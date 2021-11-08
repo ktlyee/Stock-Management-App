@@ -5,6 +5,7 @@ import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
+import 'package:csc344_project/widgets/bottom_navigation_bar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
 import 'package:csc344_project/widgets/stepper.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +86,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         color: CollectionsColors.purple,
                       ),
                       child: ExpansionTile(
-                        collapsedIconColor: CollectionsColors.white,
-                        iconColor: CollectionsColors.white,
+                        // collapsedIconColor: CollectionsColors.white,
+                        // iconColor: CollectionsColors.white,
                         title: Text(
                           categories[index],
                           style: FontCollection.bodyBoldTextStyle,
@@ -109,7 +110,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   width: MediaQuery.of(context).size.width,
                   onPressed: () {
                     soldProducts.removeWhere((p) => p['amount'] == 0);
-
                     soldItems.date = date;
                     soldItems.totalIncome = totalIncome;
                     soldItems.products = soldProducts;
@@ -121,7 +121,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => NavigationBar(),
                       ),
                     );
                   },
