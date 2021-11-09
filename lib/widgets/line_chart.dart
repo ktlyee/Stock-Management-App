@@ -35,7 +35,8 @@ class LineChart extends StatelessWidget {
             series: <ChartSeries>[
               LineSeries<SoldItem, String>(
                 dataSource: soldItem.soldList,
-                xValueMapper: (SoldItem soldItem, _) => soldItem.date,
+                xValueMapper: (SoldItem soldItem, _) =>
+                    soldItem.date.characters.getRange(0, 2).toString(),
                 yValueMapper: (SoldItem soldItem, _) => soldItem.totalIncome,
                 color: CollectionsColors.yellow,
                 dataLabelSettings: DataLabelSettings(

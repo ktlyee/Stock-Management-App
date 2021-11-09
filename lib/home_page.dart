@@ -9,6 +9,7 @@ import 'package:csc344_project/widgets/line_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,13 +19,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String month = DateFormat('MMM').format(DateTime.now()).toString();
+
   @override
   void initState() {
     ProductNotifier productNotifier =
         Provider.of<ProductNotifier>(context, listen: false);
     SoldItemsNotifier soldItem =
         Provider.of<SoldItemsNotifier>(context, listen: false);
-    getSoldItems(soldItem);
+    getSoldItems(soldItem, month);
     getProducts(productNotifier);
     super.initState();
   }
