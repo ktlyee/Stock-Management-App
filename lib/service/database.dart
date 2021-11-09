@@ -44,7 +44,7 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
 
 // Add product
 uploadProductAndImage(Product product, bool isUpdating,
-    Function productUploaded, File localFile) async {
+    Function productUploaded, File? localFile) async {
   if (localFile != null) {
     var fileExtension = path.extension(localFile.path);
     var uuid = Uuid().v4();
@@ -59,16 +59,14 @@ uploadProductAndImage(Product product, bool isUpdating,
 
     String url = await firebaseStorageRef.getDownloadURL();
 
-    _uploadProduct(product, isUpdating, productUploaded, url);
+    _uploadProduct(product, isUpdating, productUploaded, imageUrl: url);
+  } else {
+    _uploadProduct(product, isUpdating, productUploaded);
   }
-  // else {
-  //   String url = '';
-  //   _uploadProduct(product, isUpdating, productUploaded, url);
-  // }
 }
 
 _uploadProduct(Product product, bool isUpdating, Function productUploaded,
-    String imageUrl) async {
+    {String? imageUrl}) async {
   CollectionReference productRef = firebaseFirestore.collection('products');
 
   if (imageUrl != null) {

@@ -91,7 +91,7 @@ class _InventoryPageState extends State<InventoryPage> {
                       Container(
                         child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: product.image != 'no image'
+                          backgroundImage: product.image != ''
                               ? NetworkImage(product.image)
                               : AssetImage('assets/images/vegetables.jpg')
                                   as ImageProvider,

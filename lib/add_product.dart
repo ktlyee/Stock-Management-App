@@ -54,7 +54,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _currentProduct!.category = 'Vegetable';
 
     uploadProductAndImage(
-        _currentProduct!, widget.isUpdating, _onUploadedProduct, _imageFile!);
+        _currentProduct!, widget.isUpdating, _onUploadedProduct, _imageFile);
   }
 
   getLocalImage() async {
