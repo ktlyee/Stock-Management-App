@@ -175,11 +175,11 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   Widget listData(String category) {
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
-    List<Map<String, dynamic>> products = [];
+    List products = [];
 
     productNotifier.productList.forEach((product) {
       if (product.category == category) {
-        products.add({'name': product.name, 'amount': 0});
+        products.add(product.name);
       }
     });
 
@@ -196,25 +196,19 @@ class _AddOrderPageState extends State<AddOrderPage> {
             children: [
               Container(
                 child: Text(
-                  products[index]['name'],
+                  products[index],
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                   child: CustomStepper(
-                      value: products[index]['amount'],
-                      iconSize: 25,
-                      decreaseAmount: () => handleDecreaseAmount(
-                          index, productNotifier.productList[index].price),
-                      increaseAmount: () {
-                        int amount = products[index]['amount'];
-                        amount += 1;
-                        products[index].update('amount', (value) => amount);
-                        print(products);
-                      }
-                      // => handleIncreaseAmount(
-                      //     index, productNotifier.productList[index].price),
-                      )),
+                value: amountOfEachProduct[index],
+                iconSize: 25,
+                decreaseAmount: () => handleDecreaseAmount(
+                    index, productNotifier.productList[index].price),
+                increaseAmount: () => handleIncreaseAmount(
+                    index, productNotifier.productList[index].price),
+              )),
             ],
           ),
         );
