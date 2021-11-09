@@ -1,8 +1,10 @@
+import 'package:csc344_project/order_history.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
 import 'package:csc344_project/widgets/doughnut_chart.dart';
+import 'package:csc344_project/order_history.dart';
 import 'package:flutter/material.dart';
 
 class SalesPage extends StatefulWidget {
@@ -61,7 +63,7 @@ class _SalesPageState extends State<SalesPage> {
               Container(
                 margin: EdgeInsets.only(top: 30),
                 child: BuildButton(
-                  onPressed: () {},
+                  onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>orderHistory()));},
                   text: 'See sales history',
                   width: MediaQuery.of(context).size.width,
                 ),
