@@ -48,7 +48,7 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: product.image != 'no image'
+                      child: product.image != ''
                           ? Image.network(product.image)
                           : Image.asset(
                               'assets/images/vegetables.jpg',

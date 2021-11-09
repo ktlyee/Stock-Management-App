@@ -35,7 +35,7 @@ class _InventoryPageState extends State<InventoryPage> {
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
-              buildCard('#123456', 'Cabbage'),
+              buildCard(),
             ],
           ),
         ),
@@ -59,7 +59,7 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
 
-  Widget buildCard(String productId, String productName) {
+  Widget buildCard() {
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
 
     return Container(
