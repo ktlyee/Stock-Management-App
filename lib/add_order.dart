@@ -22,6 +22,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
   List categories = [];
   List amountOfEachProduct = [];
   List<Map<String, dynamic>> soldProducts = [];
+  int totalAmountSoldProducts = 0;
   int totalIncome = 0;
   String date = DateFormat('dd MMM yyyy').format(DateTime.now()).toString();
   SoldItem soldItems = SoldItem();
@@ -90,8 +91,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         color: CollectionsColors.purple,
                       ),
                       child: ExpansionTile(
-                        collapsedIconColor: CollectionsColors.white,
-                        iconColor: CollectionsColors.white,
+                        // collapsedIconColor: CollectionsColors.white,
+                        // iconColor: CollectionsColors.white,
                         title: Text(
                           categories[index],
                           style: FontCollection.bodyBoldTextStyle,
@@ -118,8 +119,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                       addSoldProductInEachDocument(product, date);
                     });
 
+                    amountOfEachProduct.forEach((amountProduct) {
+                      int amount = amountProduct;
+                      totalAmountSoldProducts += amount;
+                    });
+
                     soldItems.date = date;
                     soldItems.totalIncome = totalIncome;
+                    soldItems.totalAmountSoldProducts = totalAmountSoldProducts;
                     soldItems.products = soldProducts;
 
                     addSoldProducts(
