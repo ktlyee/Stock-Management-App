@@ -11,7 +11,8 @@ import 'package:uuid/uuid.dart';
 
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-Future<void> getSoldItems(SoldItemsNotifier soldItemsNotifier, String month) async {
+Future<void> getSoldItems(
+    SoldItemsNotifier soldItemsNotifier, String month) async {
   QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
       .collection(month)
       .orderBy('date', descending: false)

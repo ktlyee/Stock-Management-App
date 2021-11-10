@@ -63,7 +63,10 @@ class _SalesPageState extends State<SalesPage> {
               Container(
                 margin: EdgeInsets.only(top: 30),
                 child: BuildButton(
-                  onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>orderHistory()));},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OrderHistory()));
+                  },
                   text: 'See sales history',
                   width: MediaQuery.of(context).size.width,
                 ),

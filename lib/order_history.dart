@@ -1,22 +1,23 @@
-import 'package:csc344_project/add_product.dart';
-import 'package:csc344_project/notifier/product_notifier.dart';
-import 'package:csc344_project/service/database.dart';
+import 'package:csc344_project/model/soldItem.dart';
+import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:provider/provider.dart';
 
-class orderHistory extends StatefulWidget {
-  const orderHistory({Key? key}) : super(key: key);
+class OrderHistory extends StatefulWidget {
+  const OrderHistory({Key? key}) : super(key: key);
 
   @override
-  _orderHistoryState createState() => _orderHistoryState();
+  _OrderHistoryState createState() => _OrderHistoryState();
 }
 
-class _orderHistoryState extends State<orderHistory> {
+class _OrderHistoryState extends State<OrderHistory> {
   @override
   Widget build(BuildContext context) {
+    SoldItemsNotifier soldItemsNotifier = Provider.of(context, listen: false);
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: "Sales History",
@@ -24,20 +25,19 @@ class _orderHistoryState extends State<orderHistory> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              buildCard("12 September 2021", "54", "2048 "),
-              buildCard("20 September 2021", "45", "1453")
-            ],
-          ),
+          child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: soldItemsNotifier.soldList.length,
+              itemBuilder: (context, index) {
+                final soldItem = soldItemsNotifier.soldList[index];
+                return buildCard(soldItem);
+              }),
         ),
       ),
     );
   }
 
-  Widget buildCard(String date, String soldItemno, String price) {
-    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
-
+  Widget buildCard(SoldItem soldItem) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Card(
@@ -55,7 +55,7 @@ class _orderHistoryState extends State<orderHistory> {
                     padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      date,
+                      soldItem.date,
                       style: FontCollection.bodyPurpleTextStyle,
                     ),
                   ),
@@ -63,7 +63,7 @@ class _orderHistoryState extends State<orderHistory> {
                     padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      soldItemno + " item sold",
+                      '${soldItem.totalAmountSoldProducts} item sold',
                       style: FontCollection.bodyBlackTextStyle,
                     ),
                   ),
@@ -71,7 +71,7 @@ class _orderHistoryState extends State<orderHistory> {
                     padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                     alignment: Alignment.topLeft,
                     child: Text(
-                      price + " baht",
+                      '${soldItem.totalIncome} baht',
                       style: FontCollection.bodyBlackTextStyle,
                     ),
                   ),
