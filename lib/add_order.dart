@@ -91,8 +91,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         color: CollectionsColors.purple,
                       ),
                       child: ExpansionTile(
-                        collapsedIconColor: CollectionsColors.white,
-                        iconColor: CollectionsColors.white,
+                        // collapsedIconColor: CollectionsColors.white,
+                        // iconColor: CollectionsColors.white,
                         title: Text(
                           categories[index],
                           style: FontCollection.bodyBoldTextStyle,
@@ -182,11 +182,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   Widget listData(String category) {
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
-    List products = [];
+    List<Map<String, dynamic>> products = [];
+    // List amountTest = [];
 
     productNotifier.productList.forEach((product) {
       if (product.category == category) {
-        products.add(product.name);
+        products.add({'name': product.name, 'amount': 0});
+        // amountTest.add(0);
       }
     });
 
@@ -203,19 +205,27 @@ class _AddOrderPageState extends State<AddOrderPage> {
             children: [
               Container(
                 child: Text(
-                  products[index],
+                  products[index]['name'],
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                   child: CustomStepper(
-                value: amountOfEachProduct[index],
-                iconSize: 25,
-                decreaseAmount: () => handleDecreaseAmount(
-                    index, productNotifier.productList[index].price),
-                increaseAmount: () => handleIncreaseAmount(
-                    index, productNotifier.productList[index].price),
-              )),
+                      value: products[index]['amount'],
+                      iconSize: 25,
+                      decreaseAmount: () => handleDecreaseAmount(
+                          index, productNotifier.productList[index].price),
+                      increaseAmount: () {
+                        // amountTest[index] += 1;
+                        // print(amountTest);
+                        // products[index]['amount'] += 1;
+                        products[index].update('amount', (value) => ++value);
+                        print(products);
+                      }
+                      // =>
+                      // handleIncreaseAmount(
+                      //     index, productNotifier.productList[index].price),
+                      )),
             ],
           ),
         );
