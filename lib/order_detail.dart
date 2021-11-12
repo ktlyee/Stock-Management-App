@@ -42,49 +42,51 @@ class _orderDetailState extends State<orderDetail> {
                 Container(
                   child: Container(
                     margin: EdgeInsets.only(top: 30),
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                            soldItemsNotifier.currentSoldItem.products.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: CollectionsColors.purple,
-                            ),
-                            child: ExpansionTile(
-                              collapsedIconColor: CollectionsColors.white,
-                              iconColor: CollectionsColors.white,
-                              title: Text("item ",
-                                  style: FontCollection.bodyBoldTextStyle),
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(0,20, 10,0),
-                                  alignment: Alignment.centerRight,
-                                  color: CollectionsColors.white,
-                                  child: Text("3",
-                                  style: FontCollection.bodyBlackTextStyle,),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(10,0,0,0),
-                                  alignment: Alignment.centerLeft,
-                                  color: CollectionsColors.white,
-                                  child: Text("cabbbage",
-                                    style: FontCollection.bodyBlackTextStyle,),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(0,0, 10, 20),
-                                  alignment: Alignment.centerRight,
-                                  color: CollectionsColors.white,
-                                  child: Text("75"+" baht",
-                                    style: FontCollection.bodyBlackTextStyle,),
-                                ),
-                              ],
-                            ),
-                          );
-                        }),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: CollectionsColors.purple,
+                    ),
+                    child: ExpansionTile(
+                      collapsedIconColor: CollectionsColors.white,
+                      iconColor: CollectionsColors.white,
+                      title: Text("item ",
+                          style: FontCollection.bodyBoldTextStyle),
+                      children: [
+                        ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: soldItemsNotifier.currentSoldItem.products.length,
+                            itemBuilder: (context,index){
+                              final product = soldItemsNotifier.currentSoldItem.products[index];
+                              return Container(
+                                child: Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(0,20, 10,0),
+                                    alignment: Alignment.centerRight,
+                                    color: CollectionsColors.white,
+                                    child: Text(product["amount"].toString(),
+                                      style: FontCollection.bodyBlackTextStyle,),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(10,0,0,0),
+                                    alignment: Alignment.centerLeft,
+                                    color: CollectionsColors.white,
+                                    child: Text(product["name"],
+                                      style: FontCollection.bodyBlackTextStyle,),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(0,0, 10, 20),
+                                    alignment: Alignment.centerRight,
+                                    color: CollectionsColors.white,
+                                    child: Text(product["totalPrice"].toString()+" baht",
+                                      style: FontCollection.bodyBlackTextStyle,),
+                                  ),
+                                ],),
+                              );
+                            })
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -105,7 +107,7 @@ class _orderDetailState extends State<orderDetail> {
                           children: [
                             Text("Number of sales",
                               style: FontCollection.bodyBlackTextStyle,),
-                            Text(soldItemsNotifier.currentSoldItem.totalAmountSoldProducts.toString(),
+                            Text(soldItemsNotifier.currentSoldItem.totalAmountSoldProducts.toString()+" items",
                               style: FontCollection.bodyBlackTextStyle,
                               textAlign: TextAlign.end,
                             ),
@@ -120,7 +122,7 @@ class _orderDetailState extends State<orderDetail> {
                           children: [
                             Text("Number of income",
                               style: FontCollection.bodyBlackTextStyle,),
-                            Text(soldItemsNotifier.currentSoldItem.totalIncome.toString(),
+                            Text(soldItemsNotifier.currentSoldItem.totalIncome.toString()+" baht",
                               style: FontCollection.bodyBlackTextStyle,
                               textAlign: TextAlign.end,
                             ),
