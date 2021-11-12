@@ -1,5 +1,6 @@
 import 'package:csc344_project/model/soldItem.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
+import 'package:csc344_project/order_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
@@ -30,63 +31,69 @@ class _OrderHistoryState extends State<OrderHistory> {
               itemCount: soldItemsNotifier.soldList.length,
               itemBuilder: (context, index) {
                 final soldItem = soldItemsNotifier.soldList[index];
-                return buildCard(soldItem);
+                return buildCard(soldItem,soldItemsNotifier);
               }),
         ),
       ),
     );
   }
 
-  Widget buildCard(SoldItem soldItem) {
+  Widget buildCard(SoldItem soldItem,SoldItemsNotifier soldItemsNotifier) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: Card(
-        color: CollectionsColors.lightPurple,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      soldItem.date,
-                      style: FontCollection.bodyPurpleTextStyle,
+      child: GestureDetector(
+        onTap: (){
+          soldItemsNotifier.currentSoldItem= soldItem;
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => orderDetail(),));
+        },
+        child: Card(
+          color: CollectionsColors.lightPurple,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        soldItem.date,
+                        style: FontCollection.bodyPurpleTextStyle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${soldItem.totalAmountSoldProducts} item sold',
-                      style: FontCollection.bodyBlackTextStyle,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        '${soldItem.totalAmountSoldProducts} item sold',
+                        style: FontCollection.bodyBlackTextStyle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      '${soldItem.totalIncome} baht',
-                      style: FontCollection.bodyBlackTextStyle,
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        '${soldItem.totalIncome} baht',
+                        style: FontCollection.bodyBlackTextStyle,
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(20, 0, 10, 10),
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      "See detail",
-                      style: FontCollection.underlineButtonTextStyle,
-                    ),
-                  )
-                ],
-              ),
-            ))
-          ],
+                    Container(
+                      padding: EdgeInsets.fromLTRB(20, 0, 10, 10),
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        "See detail",
+                        style: FontCollection.underlineButtonTextStyle,
+                      ),
+                    )
+                  ],
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );
