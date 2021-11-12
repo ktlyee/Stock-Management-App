@@ -28,6 +28,7 @@ class _OrderHistoryState extends State<OrderHistory> {
           padding: EdgeInsets.all(20),
           child: ListView.builder(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: soldItemsNotifier.soldList.length,
               itemBuilder: (context, index) {
                 final soldItem = soldItemsNotifier.soldList[index];
@@ -54,19 +55,17 @@ class _OrderHistoryState extends State<OrderHistory> {
             children: [
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                       alignment: Alignment.topLeft,
                       child: Text(
                         soldItem.date,
-                        style: FontCollection.bodyPurpleTextStyle,
+                        style: FontCollection.bodyBoldPurpleTextStyle,
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
                       alignment: Alignment.topLeft,
                       child: Text(
                         '${soldItem.totalAmountSoldProducts} item sold',
@@ -74,19 +73,24 @@ class _OrderHistoryState extends State<OrderHistory> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        '${soldItem.totalIncome} baht',
-                        style: FontCollection.bodyBlackTextStyle,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20, 0, 10, 10),
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        "See detail",
-                        style: FontCollection.underlineButtonTextStyle,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              '${soldItem.totalIncome} baht',
+                              style: FontCollection.bodyBlackTextStyle,
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            child: Text(
+                              "See detail",
+                              style: FontCollection.underlineButtonTextStyle,
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],
