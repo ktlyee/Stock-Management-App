@@ -82,7 +82,12 @@ class _orderDetailState extends State<orderDetail> {
                                     child: Text(product["totalPrice"].toString()+" baht",
                                       style: FontCollection.bodyBlackTextStyle,),
                                   ),
-                                ],),
+                                  Divider(
+                                    color: CollectionsColors.purple,
+                                    height: 1,
+                                  )
+                                ],
+                                ),
                               );
                             })
                       ],
@@ -123,7 +128,7 @@ class _orderDetailState extends State<orderDetail> {
                             Text("Number of income",
                               style: FontCollection.bodyBlackTextStyle,),
                             Text(soldItemsNotifier.currentSoldItem.totalIncome.toString()+" baht",
-                              style: FontCollection.bodyBlackTextStyle,
+                              style: FontCollection.bodyPurpleTextStyle,
                               textAlign: TextAlign.end,
                             ),
                           ],
