@@ -47,7 +47,7 @@ class _OrderDetailState extends State<OrderDetail> {
                     child: ExpansionTile(
                       // collapsedIconColor: CollectionsColors.white,
                       // iconColor: CollectionsColors.white,
-                      title: Text("item ",
+                      title: Text("Products",
                           style: FontCollection.bodyBoldTextStyle),
                       children: [
                         ListView.builder(

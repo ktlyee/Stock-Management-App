@@ -29,14 +29,6 @@ class _HomePageState extends State<HomePage> {
         Provider.of<SoldItemsNotifier>(context, listen: false);
     getSoldItems(soldItem, month);
     getProducts(productNotifier);
-
-    // productNotifier.productList.forEach((product) {
-    //   getEachSoldProduct(
-    //     productNotifier,
-    //     product.documentId,
-    //     product.name,
-    //   );
-    // });
     super.initState();
   }
 
@@ -44,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Home',

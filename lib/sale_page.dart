@@ -1,6 +1,5 @@
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/order_history.dart';
-import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
@@ -97,13 +96,13 @@ class _SalesPageState extends State<SalesPage> {
             children: [
               Container(
                 child: Text(
-                  p['product'],
+                  p.productName,
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                 child: Text(
-                  p['totalAmount'].toString(),
+                  p.totalAmount.toString(),
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
