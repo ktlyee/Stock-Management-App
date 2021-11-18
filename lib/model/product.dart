@@ -37,3 +37,21 @@ class Product {
     };
   }
 }
+
+// class EachProductSold {
+//   String date = '';
+//   int amount = 0;
+//   int totalPrice = 0;
+
+//   EachProductSold();
+
+//   Map<String, dynamic> toMap() {
+//     return {'date': date, 'amount': amount, 'totalPrice': totalPrice};
+//   }
+
+//   EachProductSold.fromMap(Map<String, dynamic> data) {
+//     date = data['date'];
+//     amount = data['amount'];
+//     totalPrice = data['totalPrice'];
+//   }
+// }

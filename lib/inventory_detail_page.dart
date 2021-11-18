@@ -1,5 +1,6 @@
 import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
@@ -27,6 +28,8 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Product Detail',
@@ -117,7 +120,9 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                     Center(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: DataGrid(),
+                        child: DataGrid(
+                          documentId: productNotifier.currentProduct.documentId,
+                        ),
                       ),
                     ),
                   ],
