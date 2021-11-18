@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Home',
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                   color: CollectionsColors.purple,
                 ),
-                child: LineChart(),
+                child: LineChart(isIncome: true),
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
@@ -83,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: LineChart(),
+                  child: LineChart(isIncome: false),
                 ),
               ),
             ],
