@@ -32,24 +32,26 @@ class _OrderHistoryState extends State<OrderHistory> {
               itemCount: soldItemsNotifier.soldList.length,
               itemBuilder: (context, index) {
                 final soldItem = soldItemsNotifier.soldList[index];
-                return buildCard(soldItem,soldItemsNotifier);
+                return buildCard(soldItem, soldItemsNotifier);
               }),
         ),
       ),
     );
   }
 
-  Widget buildCard(SoldItem soldItem,SoldItemsNotifier soldItemsNotifier) {
+  Widget buildCard(SoldItem soldItem, SoldItemsNotifier soldItemsNotifier) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: GestureDetector(
-        onTap: (){
-          soldItemsNotifier.currentSoldItem= soldItem;
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => orderDetail(),));
+        onTap: () {
+          soldItemsNotifier.currentSoldItem = soldItem;
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => OrderDetail()));
         },
         child: Card(
           color: CollectionsColors.lightPurple,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [

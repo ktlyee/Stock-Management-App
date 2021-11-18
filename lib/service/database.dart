@@ -43,6 +43,35 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
   productNotifier.productList = _productList;
 }
 
+Stream<QuerySnapshot> getEachProductSold(String documentId) {
+  return firebaseFirestore
+      .collection('products')
+      .doc(documentId)
+      .collection('sold_products')
+      .orderBy('date', descending: false)
+      .limitToLast(7)
+      .snapshots();
+}
+
+// Future<void> getEachSoldProduct(
+//     ProductNotifier productNotifier, String docId) async {
+//   QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+//       .collection('products')
+//       .doc(docId)
+//       .collection('sold_products')
+//       .orderBy('date', descending: false)
+//       .limitToLast(7)
+//       .get();
+
+//   List<EachProductSold> _eachProductSold = [];
+//   snapshot.docs.forEach((document) {
+//     EachProductSold productSold = EachProductSold.fromMap(document.data());
+//     _eachProductSold.add(productSold);
+//   });
+
+//   productNotifier.eachProductSold = _eachProductSold;
+// }
+
 // Add product
 uploadProductAndImage(Product product, bool isUpdating,
     Function productUploaded, File? localFile) async {
