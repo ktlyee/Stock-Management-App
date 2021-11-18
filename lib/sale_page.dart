@@ -31,30 +31,30 @@ class _SalesPageState extends State<SalesPage> {
                 child: DoughnutChart(),
               ),
               Container(
+                margin: EdgeInsets.only(top: 30),
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: 1,
                   itemBuilder: (context, index) {
                     return Container(
-                      // margin: EdgeInsets.only(bottom: 10),
-                      // padding: EdgeInsets.all(20),
-                      child: Column(
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: CollectionsColors.purple,
+                      ),
+                      child: ExpansionTile(
+                        // collapsedIconColor: CollectionsColors.white,
+                        // iconColor: CollectionsColors.white,
+                        title: Text(
+                          'All Product',
+                          style: FontCollection.bodyBoldTextStyle,
+                        ),
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            padding: EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: CollectionsColors.purple,
-                            ),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'All Products',
-                              style: FontCollection.bodyTextStyle,
-                            ),
+                            color: CollectionsColors.white,
+                            child: listData(),
                           ),
-                          listData(),
                         ],
                       ),
                     );

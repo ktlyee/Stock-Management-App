@@ -76,13 +76,13 @@ class _InventoryPageState extends State<InventoryPage> {
                     borderRadius: BorderRadius.circular(20)),
                 color: CollectionsColors.lightPurple,
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
                         child: CircleAvatar(
-                          radius: 50,
+                          radius: 40,
                           backgroundImage: product.image != ''
                               ? NetworkImage(product.image)
                               : AssetImage('assets/images/vegetables.jpg')

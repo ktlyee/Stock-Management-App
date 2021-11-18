@@ -72,6 +72,13 @@ class FontCollection {
     color: Colors.white,
   );
 
+  static const smallBodyBlackTextStyle = TextStyle(
+    fontFamily: RobotoFont,
+    fontWeight: FontWeight.w400,
+    fontSize: regularSize,
+    color: Colors.black,
+  );
+
   static const descriptionBlackTextStyle = TextStyle(
     fontFamily: RobotoFont,
     fontWeight: FontWeight.w400,

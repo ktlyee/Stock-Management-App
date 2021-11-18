@@ -50,6 +50,30 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
                 alignment: Alignment.topLeft,
                 child: Text(
+                  'Sales',
+                  style: FontCollection.bodyBoldPurpleTextStyle,
+                ),
+              ),
+              buildToggleButton(isSelected2),
+              buildCard(
+                Icons.info,
+                'See more detail',
+                    () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SalesPage(),
+                    ),
+                  );
+                },
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  child: LineChart(isIncome: false),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
+                alignment: Alignment.topLeft,
+                child: Text(
                   'Income',
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
@@ -62,30 +86,6 @@ class _HomePageState extends State<HomePage> {
                   color: CollectionsColors.purple,
                 ),
                 child: LineChart(isIncome: true),
-              ),
-              Container(
-                margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Sales',
-                  style: FontCollection.bodyBoldPurpleTextStyle,
-                ),
-              ),
-              buildToggleButton(isSelected2),
-              buildCard(
-                Icons.info,
-                'See more detail',
-                () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SalesPage(),
-                    ),
-                  );
-                },
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: LineChart(isIncome: false),
-                ),
               ),
             ],
           ),
