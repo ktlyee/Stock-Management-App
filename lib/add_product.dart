@@ -6,6 +6,7 @@ import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
+import 'package:csc344_project/widgets/dropdown.dart';
 import 'package:csc344_project/widgets/textfield.dart';
 import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
@@ -68,9 +69,12 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
+  final List<String> option = ['test', 'test2', 'test3'];
+
   @override
   Widget build(BuildContext context) {
     double shortTextFieldWidth = MediaQuery.of(context).size.width / 3;
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Add Product',
@@ -128,6 +132,26 @@ class _AddProductPageState extends State<AddProductPage> {
                             ],
                           ),
                         ),
+                ),
+                Container(
+                  child: buildDropDown(
+                    'Category',
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: buildButton(
+                    'Edit category',
+                        () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return buildAlertDialog();
+                        },
+                      );
+                    },
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 30),
@@ -302,4 +326,125 @@ class _AddProductPageState extends State<AddProductPage> {
       ],
     );
   }
+
+  String _selectedCategory = 'test';
+
+  Widget buildDropDown(
+      String title,) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+          alignment: Alignment.topLeft,
+          child: Text(
+            title,
+            style: FontCollection.bodyBlackBoldTextStyle,
+          ),
+        ),
+        BuildDropdown(
+          width: MediaQuery.of(context).size.width,
+          dropdownValues: option,
+          onChanged: (value) {
+            setState(() {
+              _selectedCategory = value!;
+            });
+          },
+          values: _selectedCategory,
+          hintText: 'Please select category',
+        ),
+      ],
+    );
+  }
+
+  Widget buildButton(String text, VoidCallback handleClick) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: CollectionsColors.yellow,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      onPressed: handleClick,
+      child: Text(
+        text,
+        style: FontCollection.smallBodyBlackTextStyle,
+      ),
+    );
+  }
+
+  Widget buildAlertDialog() {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+      title: Text(
+        'Category',
+        style: FontCollection.bodyBlackTextStyle,
+      ),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2,
+        child: Column(
+          children: [
+            ListView.builder(
+              itemCount: 2,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return catalogLists();
+              },
+            ),
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              alignment: Alignment.topLeft,
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Add category',
+                  style: FontCollection.underlineButtonTextStyle,
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.topRight,
+              child: buildButton('Save', () {}),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget catalogLists() {
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 10,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 20),
+              child: BuildPlainTextField(
+                validator: (value) {},
+                initialValue: 'test',
+                // textEditingController: test,
+                onSaved: (value) {},
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              alignment: Alignment.topCenter,
+              child: InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 }
