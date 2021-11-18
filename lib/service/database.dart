@@ -41,6 +41,10 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
   });
 
   productNotifier.productList = _productList;
+
+  _productList.forEach((product) {
+    getEachSoldProduct(productNotifier, product.documentId, product.name);
+  });
 }
 
 Stream<QuerySnapshot> getEachProductSold(String documentId) {
@@ -53,24 +57,32 @@ Stream<QuerySnapshot> getEachProductSold(String documentId) {
       .snapshots();
 }
 
-// Future<void> getEachSoldProduct(
-//     ProductNotifier productNotifier, String docId) async {
-//   QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
-//       .collection('products')
-//       .doc(docId)
-//       .collection('sold_products')
-//       .orderBy('date', descending: false)
-//       .limitToLast(7)
-//       .get();
+Future<void> getEachSoldProduct(
+  ProductNotifier productNotifier,
+  String docId,
+  String productName,
+) async {
+  QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+      .collection('products')
+      .doc(docId)
+      .collection('sold_products')
+      .get();
 
-//   List<EachProductSold> _eachProductSold = [];
-//   snapshot.docs.forEach((document) {
-//     EachProductSold productSold = EachProductSold.fromMap(document.data());
-//     _eachProductSold.add(productSold);
-//   });
+  List _amountEachProduct = [];
+  snapshot.docs.forEach((document) {
+    _amountEachProduct.add(document.data()['amount'].toString());
+  });
 
-//   productNotifier.eachProductSold = _eachProductSold;
-// }
+  productNotifier.getAmountProductSold(_amountEachProduct, productName);
+
+  // List<EachProductSold> _eachProductSold = [];
+  // snapshot.docs.forEach((document) {
+  //   EachProductSold productSold = EachProductSold.fromMap(document.data());
+  //   _eachProductSold.add(productSold);
+  // });
+
+  // productNotifier.eachProductSold = _eachProductSold;
+}
 
 // Add product
 uploadProductAndImage(Product product, bool isUpdating,

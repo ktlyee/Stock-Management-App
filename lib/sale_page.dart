@@ -1,11 +1,13 @@
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/order_history.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
 import 'package:csc344_project/widgets/doughnut_chart.dart';
-import 'package:csc344_project/order_history.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SalesPage extends StatefulWidget {
   const SalesPage({Key? key}) : super(key: key);
@@ -33,7 +35,7 @@ class _SalesPageState extends State<SalesPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
                     return Container(
                       // margin: EdgeInsets.only(bottom: 10),
@@ -49,11 +51,11 @@ class _SalesPageState extends State<SalesPage> {
                             ),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Vegetable',
+                              'All Products',
                               style: FontCollection.bodyTextStyle,
                             ),
                           ),
-                          listData('Cabbage', 60),
+                          listData(),
                         ],
                       ),
                     );
@@ -78,27 +80,30 @@ class _SalesPageState extends State<SalesPage> {
     );
   }
 
-  Widget listData(String pName, double pNumber) {
+  Widget listData() {
+    ProductNotifier product = Provider.of<ProductNotifier>(context);
+
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 3,
+      itemCount: product.amountOfProductSold.length,
       itemBuilder: (context, index) {
+        final p = product.amountOfProductSold[index];
         return Container(
           margin: EdgeInsets.only(bottom: 10),
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 child: Text(
-                  pName,
+                  p['product'],
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                 child: Text(
-                  pNumber.toString(),
+                  p['totalAmount'].toString(),
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),

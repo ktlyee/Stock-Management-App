@@ -9,7 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
 class LineChart extends StatelessWidget {
-  LineChart({Key? key}) : super(key: key);
+  LineChart({Key? key, @required this.isIncome}) : super(key: key);
+  final isIncome;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,9 @@ class LineChart extends StatelessWidget {
                 dataSource: soldItem.soldList,
                 xValueMapper: (SoldItem soldItem, _) =>
                     soldItem.date.characters.getRange(0, 2).toString(),
-                yValueMapper: (SoldItem soldItem, _) => soldItem.totalIncome,
+                yValueMapper: (SoldItem soldItem, _) => isIncome
+                    ? soldItem.totalIncome
+                    : soldItem.totalAmountSoldProducts,
                 color: CollectionsColors.yellow,
                 dataLabelSettings: DataLabelSettings(
                     isVisible: true,

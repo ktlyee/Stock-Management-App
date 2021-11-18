@@ -8,6 +8,8 @@ class ProductNotifier with ChangeNotifier {
   List<Product> _productList = [];
   Product _currentProduct = Product();
 
+  List<Map<String, dynamic>> amountOfProductSold = [];
+
   UnmodifiableListView<Product> get productList =>
       UnmodifiableListView(_productList);
   // UnmodifiableListView<EachProductSold> get eachProductSold =>
@@ -33,5 +35,16 @@ class ProductNotifier with ChangeNotifier {
   addProduct(Product product) {
     _productList.add(product);
     notifyListeners();
+  }
+
+  getAmountProductSold(List amounts, String productName) {
+    int totalAmount = 0;
+    amounts.forEach((amount) {
+      totalAmount += int.parse(amount);
+    });
+
+    amountOfProductSold
+        .add({'product': productName, 'totalAmount': totalAmount});
+    print(amountOfProductSold);
   }
 }

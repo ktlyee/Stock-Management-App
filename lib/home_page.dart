@@ -29,6 +29,14 @@ class _HomePageState extends State<HomePage> {
         Provider.of<SoldItemsNotifier>(context, listen: false);
     getSoldItems(soldItem, month);
     getProducts(productNotifier);
+
+    // productNotifier.productList.forEach((product) {
+    //   getEachSoldProduct(
+    //     productNotifier,
+    //     product.documentId,
+    //     product.name,
+    //   );
+    // });
     super.initState();
   }
 
@@ -60,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(20),
                   color: CollectionsColors.purple,
                 ),
-                child: LineChart(),
+                child: LineChart(isIncome: true),
               ),
               Container(
                 margin: EdgeInsets.fromLTRB(5, 20, 0, 20),
@@ -83,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: LineChart(),
+                  child: LineChart(isIncome: false),
                 ),
               ),
             ],

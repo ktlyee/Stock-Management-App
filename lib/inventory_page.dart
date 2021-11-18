@@ -1,7 +1,6 @@
 import 'package:csc344_project/add_product.dart';
 import 'package:csc344_project/inventory_detail_page.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
-import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
@@ -16,14 +15,6 @@ class InventoryPage extends StatefulWidget {
 }
 
 class _InventoryPageState extends State<InventoryPage> {
-  @override
-  void initState() {
-    ProductNotifier productNotifier =
-        Provider.of<ProductNotifier>(context, listen: false);
-    getProducts(productNotifier);
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
