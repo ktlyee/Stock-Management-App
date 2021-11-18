@@ -6,6 +6,7 @@ import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/bottom_navigation_bar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
+import 'package:csc344_project/widgets/datetime_picker_widget.dart';
 import 'package:csc344_project/widgets/stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -64,17 +65,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   border: Border.all(width: 2, color: CollectionsColors.purple),
                 ),
                 alignment: Alignment.centerLeft,
-                child: ListTile(
-                  onTap: () {},
-                  title: Text(
-                    date,
-                    style: FontCollection.bodyBlackTextStyle,
-                  ),
-                  trailing: Icon(
-                    Icons.calendar_today,
-                    color: Colors.black,
-                  ),
-                ),
+                child: DatePickerWidget(),
               ),
               Container(
                 margin: EdgeInsets.only(top: 30),
