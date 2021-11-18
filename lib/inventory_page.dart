@@ -66,6 +66,7 @@ class _InventoryPageState extends State<InventoryPage> {
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemCount: productNotifier.productList.length,
         itemBuilder: (context, index) {
           final product = productNotifier.productList[index];
@@ -105,7 +106,7 @@ class _InventoryPageState extends State<InventoryPage> {
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  product.productId,
+                                  '#${product.productId}',
                                   style: FontCollection.bodyPurpleTextStyle,
                                 ),
                               ),
