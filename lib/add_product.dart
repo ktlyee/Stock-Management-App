@@ -159,10 +159,10 @@ class _AddProductPageState extends State<AddProductPage> {
                       ),
                       Expanded(
                         child: buildShortTextField(
-                          'Weight / Item',
+                          'Cost',
                           _currentProduct!.cost,
                           shortTextFieldWidth,
-                          'gram',
+                          'baht',
                           (value) {
                             _currentProduct!.cost = value.toString();
                           },

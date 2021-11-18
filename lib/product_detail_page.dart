@@ -85,8 +85,8 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           showAmount('Cost', product.cost, 'per unit'),
-                          showAmount('Amount', product.amount, 'baht'),
                           showAmount('Price', product.price, 'baht'),
+                          showAmount('Amount', product.amount, 'unit'),
                         ],
                       ),
                     ),

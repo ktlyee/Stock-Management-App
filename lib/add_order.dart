@@ -32,7 +32,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
     ProductNotifier productNotifier =
         Provider.of<ProductNotifier>(context, listen: false);
     productNotifier.productList.forEach((product) {
-      amountOfEachProduct.add(0);
       soldProducts.add({
         'docId': product.documentId,
         'name': product.name,
@@ -100,7 +99,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         children: [
                           Container(
                             color: CollectionsColors.white,
-                            child: listData(categories[index]),
+                            child: listData(categories[index], index),
                           ),
                         ],
                       ),
@@ -149,48 +148,47 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
   }
 
-  void handleIncreaseAmount(int index, String priceProduct) {
+  void handleIncreaseAmount(int index, String priceProduct, int amount) {
     int price = int.parse(priceProduct);
 
     setState(() {
-      amountOfEachProduct[index] += 1;
       totalIncome += price;
     });
 
-    soldProducts[index].update('amount', (value) => amountOfEachProduct[index]);
-    soldProducts[index]
-        .update('totalPrice', (value) => price * amountOfEachProduct[index]);
+    soldProducts[index].update('amount', (value) => amount);
+    soldProducts[index].update('totalPrice', (value) => price * amount);
   }
 
-  void handleDecreaseAmount(int index, String priceProduct) {
+  void handleDecreaseAmount(int index, String priceProduct, int amount) {
     int price = int.parse(priceProduct);
 
-    if (amountOfEachProduct[index] > 0) {
+    if (amount > 0) {
       setState(() {
-        amountOfEachProduct[index] -= 1;
         totalIncome -= price;
       });
-      soldProducts[index]
-          .update('amount', (value) => amountOfEachProduct[index]);
-      soldProducts[index]
-          .update('totalPrice', (value) => price * amountOfEachProduct[index]);
+      soldProducts[index].update('amount', (value) => amount);
+      soldProducts[index].update('totalPrice', (value) => price * amount);
     } else {
       soldProducts[index].update('amount', (value) => 0);
       soldProducts[index].update('totalPrice', (value) => 0);
     }
   }
 
-  Widget listData(String category) {
+  Widget listData(String category, int i) {
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
     List<Map<String, dynamic>> products = [];
-    // List amountTest = [];
+    List amount = [];
 
     productNotifier.productList.forEach((product) {
       if (product.category == category) {
-        products.add({'name': product.name, 'amount': 0});
-        // amountTest.add(0);
+        products.add({'name': product.name});
+        amount.add(0);
       }
     });
+
+    if (amountOfEachProduct.length != categories.length) {
+      amountOfEachProduct.add(amount);
+    }
 
     return ListView.separated(
       shrinkWrap: true,
@@ -210,22 +208,33 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 ),
               ),
               Container(
-                  child: CustomStepper(
-                      value: products[index]['amount'],
-                      iconSize: 25,
-                      decreaseAmount: () => handleDecreaseAmount(
-                          index, productNotifier.productList[index].price),
-                      increaseAmount: () {
-                        // amountTest[index] += 1;
-                        // print(amountTest);
-                        // products[index]['amount'] += 1;
-                        products[index].update('amount', (value) => ++value);
-                        print(products);
-                      }
-                      // =>
-                      // handleIncreaseAmount(
-                      //     index, productNotifier.productList[index].price),
-                      )),
+                child: CustomStepper(
+                  value: amountOfEachProduct[i][index],
+                  iconSize: 25,
+                  increaseAmount: () {
+                    setState(() {
+                      amountOfEachProduct[i][index] += 1;
+                    });
+                    handleIncreaseAmount(
+                      index,
+                      productNotifier.productList[index].price,
+                      amountOfEachProduct[i][index],
+                    );
+                  },
+                  decreaseAmount: () {
+                    if (amountOfEachProduct[i][index] > 0) {
+                      setState(() {
+                        amountOfEachProduct[i][index] -= 1;
+                      });
+                    }
+                    handleDecreaseAmount(
+                      index,
+                      productNotifier.productList[index].price,
+                      amountOfEachProduct[i][index],
+                    );
+                  },
+                ),
+              ),
             ],
           ),
         );

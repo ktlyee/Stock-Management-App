@@ -1,5 +1,5 @@
 import 'package:csc344_project/add_product.dart';
-import 'package:csc344_project/inventory_detail_page.dart';
+import 'package:csc344_project/product_detail_page.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
