@@ -33,3 +33,24 @@ class BuildButton extends StatelessWidget {
     );
   }
 }
+
+class EditButton extends StatelessWidget {
+  EditButton({Key? key, required this.onClicked, required this.editText, this.textStyle})
+      : super(key: key);
+
+  final VoidCallback onClicked;
+  final String editText;
+  final TextStyle? textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onClicked,
+      child: Text(
+        editText,
+        style: textStyle == null ? FontCollection.underlineButtonTextStyle : textStyle,
+      ),
+    );
+  }
+}
+

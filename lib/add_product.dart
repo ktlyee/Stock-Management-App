@@ -143,13 +143,8 @@ class _AddProductPageState extends State<AddProductPage> {
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: buildButton(
                     'Edit category',
-                        () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return buildAlertDialog();
-                        },
-                      );
+                    () {
+                      displayShowDialog(context);
                     },
                   ),
                 ),
@@ -232,6 +227,15 @@ class _AddProductPageState extends State<AddProductPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> displayShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return buildAlertDialog();
+      },
     );
   }
 
@@ -330,7 +334,8 @@ class _AddProductPageState extends State<AddProductPage> {
   String _selectedCategory = 'test';
 
   Widget buildDropDown(
-      String title,) {
+    String title,
+  ) {
     return Column(
       children: [
         Container(
@@ -392,18 +397,20 @@ class _AddProductPageState extends State<AddProductPage> {
               },
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               alignment: Alignment.topLeft,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Add category',
-                  style: FontCollection.underlineButtonTextStyle,
-                ),
+              child: Text(
+                'Add category',
+                style: FontCollection.bodyBlackTextStyle,
               ),
             ),
             Container(
-              alignment: Alignment.topRight,
+              padding: EdgeInsets.only(bottom: 10),
+              alignment: Alignment.topLeft,
+              child: addCategory(),
+            ),
+            Container(
+              alignment: Alignment.center,
               child: buildButton('Save', () {}),
             ),
           ],
@@ -447,4 +454,44 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
+  TextEditingController addCat = TextEditingController();
+  String categoryName = '';
+
+  Widget addCategory() {
+    return Container(
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(
+            flex: 10,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 20),
+              child: BuildPlainTextField(
+                validator: (value) {},
+                // initialValue: 'test',
+                textEditingController: addCat,
+                onSaved: (value) {},
+                onChanged: (value) {
+                  setState(() {
+                    categoryName = value!;
+                  });
+                },
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              alignment: Alignment.topCenter,
+              child: EditButton(
+                  onClicked: () {
+                    print(categoryName);
+                  },
+                  editText: 'Add'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

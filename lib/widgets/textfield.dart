@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 class BuildPlainTextField extends StatefulWidget {
   BuildPlainTextField({
     Key? key,
-    // required this.textEditingController,
+    this.textEditingController,
     this.hintText,
     this.initialValue,
     required this.validator,
     required this.onSaved,
+    this.onChanged,
     this.textInputType,
   }) : super(key: key);
 
-  // final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
   final String? hintText;
   final String? initialValue;
   final String? Function(String?) validator;
   final String? Function(String?) onSaved;
+  final String? Function(String?)? onChanged;
   final TextInputType? textInputType;
 
   @override
@@ -27,7 +29,7 @@ class _BuildPlainTextFieldState extends State<BuildPlainTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // controller: widget.textEditingController,
+      controller: widget.textEditingController,
       initialValue: widget.initialValue,
       decoration: InputDecoration(
         hintText: widget.hintText,
@@ -49,6 +51,7 @@ class _BuildPlainTextFieldState extends State<BuildPlainTextField> {
       keyboardType: widget.textInputType,
       validator: widget.validator,
       onSaved: widget.onSaved,
+      onChanged: widget.onChanged,
     );
   }
 }
