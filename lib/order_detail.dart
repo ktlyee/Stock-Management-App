@@ -16,6 +16,21 @@ class OrderDetail extends StatefulWidget {
 }
 
 class _OrderDetailState extends State<OrderDetail> {
+  List categories = [];
+
+  @override
+  void initState() {
+    SoldItemsNotifier soldItemsNotifier =
+        Provider.of<SoldItemsNotifier>(context, listen: false);
+    soldItemsNotifier.currentSoldItem.products.forEach((p) {
+      if (categories.contains(p['category'])) {
+      } else {
+        categories.add(p['category']);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SoldItemsNotifier soldItemsNotifier =
@@ -44,66 +59,87 @@ class _OrderDetailState extends State<OrderDetail> {
                       borderRadius: BorderRadius.circular(10),
                       color: CollectionsColors.purple,
                     ),
-                    child: ExpansionTile(
-                      // collapsedIconColor: CollectionsColors.white,
-                      // iconColor: CollectionsColors.white,
-                      title: Text("Products",
-                          style: FontCollection.bodyBoldTextStyle),
-                      children: [
-                        ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: soldItemsNotifier
-                                .currentSoldItem.products.length,
-                            itemBuilder: (context, index) {
-                              final product = soldItemsNotifier
-                                  .currentSoldItem.products[index];
-                              return Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(0, 20, 10, 0),
-                                      alignment: Alignment.centerRight,
-                                      color: CollectionsColors.white,
-                                      child: Text(
-                                        product["amount"].toString(),
-                                        style:
-                                            FontCollection.bodyBlackTextStyle,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                      alignment: Alignment.centerLeft,
-                                      color: CollectionsColors.white,
-                                      child: Text(
-                                        product["name"],
-                                        style:
-                                            FontCollection.bodyBlackTextStyle,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding:
-                                          EdgeInsets.fromLTRB(0, 0, 10, 20),
-                                      alignment: Alignment.centerRight,
-                                      color: CollectionsColors.white,
-                                      child: Text(
-                                        product["totalPrice"].toString() +
-                                            " baht",
-                                        style:
-                                            FontCollection.bodyBlackTextStyle,
-                                      ),
-                                    ),
-                                    Divider(
-                                      color: CollectionsColors.purple,
-                                      height: 1,
-                                    )
-                                  ],
-                                ),
-                              );
-                            })
-                      ],
-                    ),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          List products = [];
+
+                          soldItemsNotifier.currentSoldItem.products.forEach(
+                            (p) {
+                              if (p['category'] == categories[index]) {
+                                products.add(p);
+                              }
+                            },
+                          );
+
+                          return Container(
+                            child: ExpansionTile(
+                              // collapsedIconColor: CollectionsColors.white,
+                              // iconColor: CollectionsColors.white,
+                              title: Text(
+                                categories[index],
+                                style: FontCollection.bodyBoldTextStyle,
+                              ),
+                              children: [
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: products.length,
+                                    itemBuilder: (context, index) {
+                                      return Container(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 20, 10, 0),
+                                              alignment: Alignment.centerRight,
+                                              color: CollectionsColors.white,
+                                              child: Text(
+                                                products[index]["amount"]
+                                                        .toString() +
+                                                    " unit",
+                                                style: FontCollection
+                                                    .bodyBlackTextStyle,
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  10, 0, 0, 0),
+                                              alignment: Alignment.centerLeft,
+                                              color: CollectionsColors.white,
+                                              child: Text(
+                                                products[index]["name"],
+                                                style: FontCollection
+                                                    .bodyBlackTextStyle,
+                                              ),
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 0, 10, 20),
+                                              alignment: Alignment.centerRight,
+                                              color: CollectionsColors.white,
+                                              child: Text(
+                                                products[index]["totalPrice"]
+                                                        .toString() +
+                                                    " baht",
+                                                style: FontCollection
+                                                    .bodyBlackTextStyle,
+                                              ),
+                                            ),
+                                            Divider(
+                                              color: CollectionsColors.purple,
+                                              height: 1,
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    })
+                              ],
+                            ),
+                          );
+                        }),
                   ),
                 ),
                 Container(

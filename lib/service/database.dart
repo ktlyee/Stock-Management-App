@@ -35,15 +35,28 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
       .get();
 
   List<Product> _productList = [];
+  List<String> _categoriesList = [];
+
   snapshot.docs.forEach((document) {
     Product product = Product.fromMap(document.data());
     _productList.add(product);
+
+    if (_categoriesList.contains(product.category)) {
+    } else {
+      _categoriesList.add(product.category);
+    }
   });
 
   productNotifier.productList = _productList;
+  productNotifier.categoriesList = _categoriesList;
 
   _productList.forEach((product) {
-    getEachSoldProduct(productNotifier, product.documentId, product.name);
+    getEachSoldProduct(
+      productNotifier,
+      product.documentId,
+      product.name,
+      product.category,
+    );
   });
 }
 
@@ -61,6 +74,7 @@ Future<void> getEachSoldProduct(
   ProductNotifier productNotifier,
   String docId,
   String productName,
+  String category,
 ) async {
   QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
       .collection('products')
@@ -73,7 +87,11 @@ Future<void> getEachSoldProduct(
     _amountEachProduct.add(document.data()['amount'].toString());
   });
 
-  productNotifier.getAmountProductSold(_amountEachProduct, productName);
+  productNotifier.getAmountProductSold(
+    _amountEachProduct,
+    productName,
+    category,
+  );
 
   // List<EachProductSold> _eachProductSold = [];
   // snapshot.docs.forEach((document) {
@@ -127,11 +145,8 @@ _uploadProduct(Product product, bool isUpdating, Function productUploaded,
   }
 }
 
-updateAmountProduct(String docId, String amount) {
-  firebaseFirestore
-      .collection('products')
-      .doc(docId)
-      .update({'amount': amount});
+updateProductModel(String docId, Map<String, dynamic> value) {
+  firebaseFirestore.collection('products').doc(docId).update(value);
 }
 
 // Add sold products

@@ -1,3 +1,4 @@
+import 'package:csc344_project/model/sales.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/order_history.dart';
 import 'package:csc344_project/style/color.dart';
@@ -18,6 +19,8 @@ class SalesPage extends StatefulWidget {
 class _SalesPageState extends State<SalesPage> {
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Sales',
@@ -35,7 +38,7 @@ class _SalesPageState extends State<SalesPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 1,
+                  itemCount: productNotifier.categoriesList.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 10),
@@ -47,13 +50,16 @@ class _SalesPageState extends State<SalesPage> {
                         // collapsedIconColor: CollectionsColors.white,
                         // iconColor: CollectionsColors.white,
                         title: Text(
-                          'All Product',
+                          productNotifier.categoriesList[index],
                           style: FontCollection.bodyBoldTextStyle,
                         ),
                         children: [
                           Container(
                             color: CollectionsColors.white,
-                            child: listData(),
+                            child: listData(
+                              productNotifier.categoriesList[index],
+                              productNotifier,
+                            ),
                           ),
                         ],
                       ),
@@ -79,15 +85,20 @@ class _SalesPageState extends State<SalesPage> {
     );
   }
 
-  Widget listData() {
-    ProductNotifier product = Provider.of<ProductNotifier>(context);
+  Widget listData(String category, ProductNotifier productNotifier) {
+    List<Sales> products = [];
+
+    productNotifier.amountOfProductSold.forEach((product) {
+      if (product.category == category) {
+        products.add(product);
+      }
+    });
 
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: product.amountOfProductSold.length,
+      itemCount: products.length,
       itemBuilder: (context, index) {
-        final p = product.amountOfProductSold[index];
         return Container(
           margin: EdgeInsets.only(bottom: 10),
           padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -96,13 +107,13 @@ class _SalesPageState extends State<SalesPage> {
             children: [
               Container(
                 child: Text(
-                  p.productName,
+                  products[index].productName,
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),
               Container(
                 child: Text(
-                  p.totalAmount.toString(),
+                  products[index].totalAmount.toString(),
                   style: FontCollection.bodyBlackTextStyle,
                 ),
               ),

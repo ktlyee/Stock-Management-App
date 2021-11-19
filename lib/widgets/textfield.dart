@@ -7,8 +7,8 @@ class BuildPlainTextField extends StatefulWidget {
     this.textEditingController,
     this.hintText,
     this.initialValue,
-    required this.validator,
-    required this.onSaved,
+    this.validator,
+    this.onSaved,
     this.onChanged,
     this.textInputType,
   }) : super(key: key);
@@ -16,8 +16,8 @@ class BuildPlainTextField extends StatefulWidget {
   final TextEditingController? textEditingController;
   final String? hintText;
   final String? initialValue;
-  final String? Function(String?) validator;
-  final String? Function(String?) onSaved;
+  final String? Function(String?)? validator;
+  final String? Function(String?)? onSaved;
   final String? Function(String?)? onChanged;
   final TextInputType? textInputType;
 

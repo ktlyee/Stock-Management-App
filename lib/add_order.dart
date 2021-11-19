@@ -21,7 +21,6 @@ class AddOrderPage extends StatefulWidget {
 }
 
 class _AddOrderPageState extends State<AddOrderPage> {
-  List categories = [];
   List amountOfEachProduct = [];
   List<Map<String, dynamic>> soldProducts = [];
   int totalAmountSoldProducts = 0;
@@ -37,13 +36,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
       soldProducts.add({
         'docId': product.documentId,
         'name': product.name,
+        'category': product.category,
         'amount': 0,
         'totalPrice': 0
       });
-      if (categories.contains(product.category)) {
-      } else {
-        categories.add(product.category);
-      }
     });
     super.initState();
   }
@@ -77,7 +73,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: categories.length,
+                  itemCount: productNotifier.categoriesList.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: EdgeInsets.only(bottom: 10),
@@ -89,13 +85,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         // collapsedIconColor: CollectionsColors.white,
                         // iconColor: CollectionsColors.white,
                         title: Text(
-                          categories[index],
+                          productNotifier.categoriesList[index],
                           style: FontCollection.bodyBoldTextStyle,
                         ),
                         children: [
                           Container(
                             color: CollectionsColors.white,
-                            child: listData(categories[index], index),
+                            child: listData(
+                                productNotifier.categoriesList[index], index),
                           ),
                         ],
                       ),
@@ -121,9 +118,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         if (document.name == product['name']) {
                           num newAmount =
                               int.parse(document.amount) - product['amount'];
-                          updateAmountProduct(
+                          updateProductModel(
                             document.documentId,
-                            newAmount.toString(),
+                            {'amount': newAmount.toString()},
                           );
                         }
                       });
@@ -222,7 +219,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
       }
     });
 
-    if (amountOfEachProduct.length != categories.length) {
+    if (amountOfEachProduct.length != productNotifier.categoriesList.length) {
       amountOfEachProduct.add(amount);
     }
 

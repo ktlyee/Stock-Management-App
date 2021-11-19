@@ -28,9 +28,15 @@ class _AddProductPageState extends State<AddProductPage> {
   Product? _currentProduct;
   File? _imageFile;
   String _imageUrl = '';
+  late String _selectedCategory;
+
+  TextEditingController newCategory = TextEditingController();
 
   @override
   void initState() {
+    ProductNotifier productNotifier =
+        Provider.of<ProductNotifier>(context, listen: false);
+    _selectedCategory = productNotifier.categoriesList.first;
     _currentProduct = Product();
     super.initState();
   }
@@ -52,7 +58,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _formKey.currentState?.save();
 
     _currentProduct!.productId = '00${productNotifier.productList.length + 1}';
-    _currentProduct!.category = 'Vegetable';
+    _currentProduct!.category = _selectedCategory;
 
     uploadProductAndImage(
         _currentProduct!, widget.isUpdating, _onUploadedProduct, _imageFile);
@@ -69,10 +75,9 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
-  final List<String> option = ['test', 'test2', 'test3'];
-
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
     double shortTextFieldWidth = MediaQuery.of(context).size.width / 3;
 
     return Scaffold(
@@ -136,6 +141,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 Container(
                   child: buildDropDown(
                     'Category',
+                    productNotifier,
                   ),
                 ),
                 Container(
@@ -144,7 +150,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   child: buildButton(
                     'Edit category',
                     () {
-                      displayShowDialog(context);
+                      displayShowDialog(context, productNotifier);
                     },
                   ),
                 ),
@@ -230,11 +236,12 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Future<void> displayShowDialog(BuildContext context) {
+  Future<void> displayShowDialog(
+      BuildContext context, ProductNotifier productNotifier) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return buildAlertDialog();
+        return buildAlertDialog(productNotifier);
       },
     );
   }
@@ -331,11 +338,7 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  String _selectedCategory = 'test';
-
-  Widget buildDropDown(
-    String title,
-  ) {
+  Widget buildDropDown(String title, ProductNotifier productNotifier) {
     return Column(
       children: [
         Container(
@@ -348,7 +351,7 @@ class _AddProductPageState extends State<AddProductPage> {
         ),
         BuildDropdown(
           width: MediaQuery.of(context).size.width,
-          dropdownValues: option,
+          dropdownValues: productNotifier.categoriesList,
           onChanged: (value) {
             setState(() {
               _selectedCategory = value!;
@@ -375,7 +378,7 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget buildAlertDialog() {
+  Widget buildAlertDialog(ProductNotifier productNotifier) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
@@ -390,10 +393,11 @@ class _AddProductPageState extends State<AddProductPage> {
         child: Column(
           children: [
             ListView.builder(
-              itemCount: 2,
+              itemCount: productNotifier.categoriesList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return catalogLists();
+                String category = productNotifier.categoriesList[index];
+                return catalogLists(category, productNotifier, index);
               },
             ),
             Container(
@@ -407,11 +411,13 @@ class _AddProductPageState extends State<AddProductPage> {
             Container(
               padding: EdgeInsets.only(bottom: 10),
               alignment: Alignment.topLeft,
-              child: addCategory(),
+              child: addCategory(productNotifier),
             ),
             Container(
               alignment: Alignment.center,
-              child: buildButton('Save', () {}),
+              child: buildButton('Save', () {
+                Navigator.pop(context);
+              }),
             ),
           ],
         ),
@@ -419,7 +425,14 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget catalogLists() {
+  Widget catalogLists(
+    String category,
+    ProductNotifier productNotifier,
+    int index,
+  ) {
+    TextEditingController controller = new TextEditingController();
+    controller.text = category;
+
     return Container(
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -429,10 +442,10 @@ class _AddProductPageState extends State<AddProductPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: 20),
               child: BuildPlainTextField(
-                validator: (value) {},
-                initialValue: 'test',
-                // textEditingController: test,
-                onSaved: (value) {},
+                // validator: (value) {},
+                // initialValue: category,
+                textEditingController: controller,
+                // onSaved: (value) {},
               ),
             ),
           ),
@@ -441,7 +454,21 @@ class _AddProductPageState extends State<AddProductPage> {
             child: Container(
               alignment: Alignment.topCenter,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  productNotifier.categoriesList[index] =
+                      controller.text.trim();
+
+                  productNotifier.productList.forEach((product) {
+                    if (product.category == category) {
+                      updateProductModel(
+                        product.documentId,
+                        {'category': controller.text.trim()},
+                      );
+                      print(product.name);
+                    }
+                  });
+                  productNotifier.reloadProductList(productNotifier);
+                },
                 child: Icon(
                   Icons.edit,
                   color: Colors.black,
@@ -454,10 +481,7 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  TextEditingController addCat = TextEditingController();
-  String categoryName = '';
-
-  Widget addCategory() {
+  Widget addCategory(ProductNotifier productNotifier) {
     return Container(
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -467,15 +491,7 @@ class _AddProductPageState extends State<AddProductPage> {
             child: Padding(
               padding: EdgeInsets.only(bottom: 20),
               child: BuildPlainTextField(
-                validator: (value) {},
-                // initialValue: 'test',
-                textEditingController: addCat,
-                onSaved: (value) {},
-                onChanged: (value) {
-                  setState(() {
-                    categoryName = value!;
-                  });
-                },
+                textEditingController: newCategory,
               ),
             ),
           ),
@@ -484,10 +500,13 @@ class _AddProductPageState extends State<AddProductPage> {
             child: Container(
               alignment: Alignment.topCenter,
               child: EditButton(
-                  onClicked: () {
-                    print(categoryName);
-                  },
-                  editText: 'Add'),
+                onClicked: () {
+                  productNotifier.categoriesList.add(newCategory.text.trim());
+                  _selectedCategory = productNotifier.categoriesList.last;
+                  Navigator.pop(context);
+                },
+                editText: 'Add',
+              ),
             ),
           ),
         ],
