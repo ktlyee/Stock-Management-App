@@ -53,97 +53,100 @@ class _OrderDetailState extends State<OrderDetail> {
                   ),
                 ),
                 Container(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 30),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: CollectionsColors.purple,
-                    ),
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: categories.length,
-                        itemBuilder: (context, index) {
-                          List products = [];
+                  padding: EdgeInsets.only(top: 10),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: categories.length,
+                      itemBuilder: (context, index) {
+                        List products = [];
 
-                          soldItemsNotifier.currentSoldItem.products.forEach(
-                            (p) {
-                              if (p['category'] == categories[index]) {
-                                products.add(p);
-                              }
-                            },
-                          );
+                        soldItemsNotifier.currentSoldItem.products.forEach(
+                          (p) {
+                            if (p['category'] == categories[index]) {
+                              products.add(p);
+                            }
+                          },
+                        );
 
-                          return Container(
-                            child: ExpansionTile(
-                              // collapsedIconColor: CollectionsColors.white,
-                              // iconColor: CollectionsColors.white,
-                              title: Text(
-                                categories[index],
-                                style: FontCollection.bodyBoldTextStyle,
-                              ),
-                              children: [
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: products.length,
-                                    itemBuilder: (context, index) {
-                                      return Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  0, 20, 10, 0),
-                                              alignment: Alignment.centerRight,
-                                              color: CollectionsColors.white,
-                                              child: Text(
-                                                products[index]["amount"]
-                                                        .toString() +
-                                                    " unit",
-                                                style: FontCollection
-                                                    .bodyBlackTextStyle,
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  10, 0, 0, 0),
-                                              alignment: Alignment.centerLeft,
-                                              color: CollectionsColors.white,
-                                              child: Text(
-                                                products[index]["name"],
-                                                style: FontCollection
-                                                    .bodyBlackTextStyle,
-                                              ),
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  0, 0, 10, 20),
-                                              alignment: Alignment.centerRight,
-                                              color: CollectionsColors.white,
-                                              child: Text(
-                                                products[index]["totalPrice"]
-                                                        .toString() +
-                                                    " baht",
-                                                style: FontCollection
-                                                    .bodyBlackTextStyle,
-                                              ),
-                                            ),
-                                            Divider(
-                                              color: CollectionsColors.purple,
-                                              height: 1,
-                                            )
-                                          ],
-                                        ),
-                                      );
-                                    })
-                              ],
+                        return Container(
+                          margin: EdgeInsets.only(top: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: CollectionsColors.purple,
+                          ),
+                          child: ExpansionTile(
+                            // collapsedIconColor: CollectionsColors.white,
+                            // iconColor: CollectionsColors.white,
+                            title: Text(
+                              categories[index],
+                              style: FontCollection.bodyBoldTextStyle,
                             ),
-                          );
-                        }),
-                  ),
+                            children: [
+                              ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: products.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      color: Colors.white,
+                                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Container(
+                                                  color: CollectionsColors.white,
+                                                  child: Text(
+                                                    products[index]["name"],
+                                                    style: FontCollection
+                                                        .bodyBlackTextStyle,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  color: CollectionsColors.white,
+                                                  child: Text(
+                                                    products[index]["amount"]
+                                                        .toString() +
+                                                        " unit",
+                                                    style: FontCollection
+                                                        .bodyBlackTextStyle,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerRight,
+                                            color: CollectionsColors.white,
+                                            child: Text(
+                                              products[index]["totalPrice"]
+                                                      .toString() +
+                                                  " baht",
+                                              style: FontCollection
+                                                  .bodyBlackTextStyle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                separatorBuilder:(context, index) => Container(
+                                  color: Colors.white,
+                                  child: Divider(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                  ),
+                            ],
+                          ),
+                        );
+                      }),
                 ),
                 Container(
-                    padding: EdgeInsets.fromLTRB(0, 30, 0, 10),
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
                     child: Column(
                       children: [
                         Container(
@@ -169,11 +172,14 @@ class _OrderDetailState extends State<OrderDetail> {
                                         .currentSoldItem.totalAmountSoldProducts
                                         .toString() +
                                     " items",
-                                style: FontCollection.bodyBlackTextStyle,
+                                style: FontCollection.bodyBlackBoldTextStyle,
                                 textAlign: TextAlign.end,
                               ),
                             ],
                           ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 10),
                         ),
                         Container(
                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -189,7 +195,7 @@ class _OrderDetailState extends State<OrderDetail> {
                                 soldItemsNotifier.currentSoldItem.totalIncome
                                         .toString() +
                                     " baht",
-                                style: FontCollection.bodyPurpleTextStyle,
+                                style: FontCollection.bodyBoldPurpleTextStyle,
                                 textAlign: TextAlign.end,
                               ),
                             ],
