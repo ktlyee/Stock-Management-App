@@ -1,5 +1,6 @@
 import 'package:csc344_project/model/soldItem.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
@@ -49,6 +50,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+    SoldItemsNotifier soldItemsNotifier =
+        Provider.of<SoldItemsNotifier>(context);
+
     return Scaffold(
       appBar: MainAppBar(
         appBarText: 'Add an order',
@@ -106,28 +111,52 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   onPressed: () {
                     soldProducts.removeWhere((p) => p['amount'] == 0);
                     soldProducts.forEach((product) {
-                      addSoldProductInEachDocument(product, date);
+                      addSoldProductInEachDocument(
+                        product,
+                        soldItemsNotifier.date != ''
+                            ? soldItemsNotifier.date
+                            : date,
+                      );
+                      productNotifier.productList.forEach((document) {
+                        if (document.name == product['name']) {
+                          num newAmount =
+                              int.parse(document.amount) - product['amount'];
+                          updateAmountProduct(
+                            document.documentId,
+                            newAmount.toString(),
+                          );
+                        }
+                      });
                     });
 
-                    amountOfEachProduct.forEach((amountProduct) {
-                      int amount = amountProduct;
-                      totalAmountSoldProducts += amount;
-                    });
+                    for (int i = 0; i < amountOfEachProduct.length; i++) {
+                      amountOfEachProduct[i].forEach((amountProduct) {
+                        int amount = amountProduct;
+                        totalAmountSoldProducts += amount;
+                      });
+                    }
 
-                    soldItems.date = date;
+                    soldItems.date = soldItemsNotifier.date != ''
+                        ? soldItemsNotifier.date
+                        : date;
                     soldItems.totalIncome = totalIncome;
                     soldItems.totalAmountSoldProducts = totalAmountSoldProducts;
                     soldItems.products = soldProducts;
 
                     addSoldProducts(
                       soldItems,
-                      date.characters.getRange(3, 6).toString(),
+                      soldItemsNotifier.date != ''
+                          ? soldItemsNotifier.date.characters
+                              .getRange(3, 6)
+                              .toString()
+                          : date.characters.getRange(3, 6).toString(),
                     );
 
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (context) => NavigationBar(),
                       ),
+                      (route) => false,
                     );
                   },
                 ),
@@ -139,29 +168,41 @@ class _AddOrderPageState extends State<AddOrderPage> {
     );
   }
 
-  void handleIncreaseAmount(int index, String priceProduct, int amount) {
+  void handleIncreaseAmount(String priceProduct, int amount, String pName) {
     int price = int.parse(priceProduct);
 
     setState(() {
       totalIncome += price;
     });
 
-    soldProducts[index].update('amount', (value) => amount);
-    soldProducts[index].update('totalPrice', (value) => price * amount);
+    soldProducts.forEach((product) {
+      if (product['name'] == pName) {
+        product.update('amount', (value) => amount);
+        product.update('totalPrice', (value) => price * amount);
+      }
+    });
   }
 
-  void handleDecreaseAmount(int index, String priceProduct, int amount) {
+  void handleDecreaseAmount(String priceProduct, int amount, String pName) {
     int price = int.parse(priceProduct);
 
     if (amount > 0) {
       setState(() {
         totalIncome -= price;
       });
-      soldProducts[index].update('amount', (value) => amount);
-      soldProducts[index].update('totalPrice', (value) => price * amount);
+      soldProducts.forEach((product) {
+        if (product['name'] == pName) {
+          product.update('amount', (value) => amount);
+          product.update('totalPrice', (value) => price * amount);
+        }
+      });
     } else {
-      soldProducts[index].update('amount', (value) => 0);
-      soldProducts[index].update('totalPrice', (value) => 0);
+      soldProducts.forEach((product) {
+        if (product['name'] == pName) {
+          product.update('amount', (value) => 0);
+          product.update('totalPrice', (value) => 0);
+        }
+      });
     }
   }
 
@@ -172,7 +213,11 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
     productNotifier.productList.forEach((product) {
       if (product.category == category) {
-        products.add({'name': product.name});
+        products.add({
+          'name': product.name,
+          'price': product.price,
+          'amount': int.parse(product.amount),
+        });
         amount.add(0);
       }
     });
@@ -203,13 +248,16 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   value: amountOfEachProduct[i][index],
                   iconSize: 25,
                   increaseAmount: () {
-                    setState(() {
-                      amountOfEachProduct[i][index] += 1;
-                    });
+                    if (amountOfEachProduct[i][index] <=
+                        products[index]['amount']) {
+                      setState(() {
+                        amountOfEachProduct[i][index] += 1;
+                      });
+                    }
                     handleIncreaseAmount(
-                      index,
-                      productNotifier.productList[index].price,
+                      products[index]['price'],
                       amountOfEachProduct[i][index],
+                      products[index]['name'],
                     );
                   },
                   decreaseAmount: () {
@@ -219,9 +267,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
                       });
                     }
                     handleDecreaseAmount(
-                      index,
-                      productNotifier.productList[index].price,
+                      products[index]['price'],
                       amountOfEachProduct[i][index],
+                      products[index]['name'],
                     );
                   },
                 ),

@@ -127,6 +127,13 @@ _uploadProduct(Product product, bool isUpdating, Function productUploaded,
   }
 }
 
+updateAmountProduct(String docId, String amount) {
+  firebaseFirestore
+      .collection('products')
+      .doc(docId)
+      .update({'amount': amount});
+}
+
 // Add sold products
 addSoldProducts(SoldItem soldItem, String month) async {
   CollectionReference soldItemRef = firebaseFirestore.collection(month);

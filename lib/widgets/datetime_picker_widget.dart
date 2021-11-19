@@ -1,9 +1,12 @@
+import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/widgets/show_datetime.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DatePickerWidget extends StatefulWidget {
+  DatePickerWidget({Key? key}) : super(key: key);
+
   @override
   _DatePickerWidgetState createState() => _DatePickerWidgetState();
 }
@@ -12,22 +15,24 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   DateTime date = DateTime.now();
 
   String getText() {
-    if (date == null) {
-      return 'Select Date';
-    } else {
-      return DateFormat('MM/dd/yyyy').format(date);
-      // return '${date.month}/${date.day}/${date.year}';
-    }
+    return DateFormat('dd MMM y').format(date);
   }
 
   @override
-  Widget build(BuildContext context) => ShowDateTime(
-    text: getText(),
-    onClicked: () => pickDate(context),
-  );
+  Widget build(BuildContext context) {
+    SoldItemsNotifier soldItemsNotifier =
+        Provider.of<SoldItemsNotifier>(context);
 
-  Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
+    return ShowDateTime(
+      text: getText(),
+      onClicked: () => pickDate(context, soldItemsNotifier),
+    );
+  }
+
+  Future pickDate(
+    BuildContext context,
+    SoldItemsNotifier soldItemsNotifier,
+  ) async {
     final newDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -37,6 +42,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 
     if (newDate == null) return;
 
-    setState(() => date = newDate);
+    setState(() {
+      date = newDate;
+      soldItemsNotifier.date = getText();
+    });
   }
 }
