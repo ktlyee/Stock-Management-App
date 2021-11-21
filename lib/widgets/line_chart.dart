@@ -31,7 +31,7 @@ class LineChart extends StatelessWidget {
           child: SfCartesianChart(
             primaryXAxis: CategoryAxis(),
             primaryYAxis: NumericAxis(
-              numberFormat: NumberFormat.simpleCurrency(),
+              numberFormat: NumberFormat.simpleCurrency(locale: 'th'),
             ),
             series: <ChartSeries>[
               LineSeries<SoldItem, String>(
