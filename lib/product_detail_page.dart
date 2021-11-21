@@ -26,6 +26,21 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
     super.initState();
   }
 
+  void actionPopUpItemSelected(String value, String name) {
+    String message;
+    if (value == 'edit') {
+      message = 'You selected edit for $name';
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
+      print(message);
+    } else if (value == 'delete') {
+      message = 'You selected delete for $name';
+      print(message);
+    } else {
+      message = 'Not implemented';
+      print(message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
@@ -34,12 +49,22 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
       appBar: MainAppBar(
         appBarText: 'Product Detail',
         action: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.more_vert,
-                color: CollectionsColors.deepPurple,
-              ))
+          PopupMenuButton(
+              color: CollectionsColors.lightPurple,
+              onSelected: (String value) {
+                actionPopUpItemSelected(value, product.name);
+              },
+              itemBuilder:(context) => [
+                PopupMenuItem(
+                  child: popUpList('Edit', Icons.edit),
+                  value: 'edit',
+                ),
+                PopupMenuItem(
+                  child: popUpList('Delete', Icons.delete),
+                  value: 'delete',
+                ),
+              ]
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -243,4 +268,12 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
       ],
     );
   }
+
+  Widget popUpList(String text, IconData iconData) {
+    return ListTile(
+      leading: Icon(iconData, color: Colors.black,),
+      title: Text(text, style: FontCollection.bodyBlackTextStyle,),
+    );
+  }
+
 }
