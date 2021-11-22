@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
@@ -19,6 +21,7 @@ class DataGrid extends StatefulWidget {
 
 class _DataGridState extends State<DataGrid> {
   late DataSource _dataSource;
+  List<int> _amount = [];
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,9 @@ class _DataGridState extends State<DataGrid> {
         }
 
         _dataSource = DataSource(productSold: snapshot.data!.docs);
+        snapshot.data!.docs.map((e) => _amount.add(e['amount']));
+        // _amount.add(snapshot.data!.docs.map((e) => e['amount']));
+        print(_amount);
 
         return SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CollectionsColors.deepPurple),

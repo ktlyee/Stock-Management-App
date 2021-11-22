@@ -1,11 +1,13 @@
 import 'package:csc344_project/model/soldItem.dart';
 import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/order_detail.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key}) : super(key: key);
@@ -15,6 +17,16 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
+  String month = DateFormat('MMM').format(DateTime.now()).toString();
+
+  @override
+  void initState() {
+    SoldItemsNotifier soldItem =
+        Provider.of<SoldItemsNotifier>(context, listen: false);
+    getSoldItems(soldItem, month);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SoldItemsNotifier soldItemsNotifier = Provider.of(context, listen: false);
@@ -27,7 +39,6 @@ class _OrderHistoryState extends State<OrderHistory> {
         child: Container(
           padding: EdgeInsets.all(20),
           child: ListView.builder(
-              reverse: true,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: soldItemsNotifier.soldList.length,

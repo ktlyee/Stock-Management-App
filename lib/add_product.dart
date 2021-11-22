@@ -37,7 +37,12 @@ class _AddProductPageState extends State<AddProductPage> {
     ProductNotifier productNotifier =
         Provider.of<ProductNotifier>(context, listen: false);
     _selectedCategory = productNotifier.categoriesList.first;
-    _currentProduct = Product();
+    if (widget.isUpdating) {
+      _currentProduct = productNotifier.currentProduct;
+    } else {
+      _currentProduct = Product();
+    }
+
     super.initState();
   }
 

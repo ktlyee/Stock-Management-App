@@ -1,3 +1,4 @@
+import 'package:csc344_project/add_product.dart';
 import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/service/database.dart';
@@ -29,9 +30,10 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
   void actionPopUpItemSelected(String value, String name) {
     String message;
     if (value == 'edit') {
-      message = 'You selected edit for $name';
-      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ));
-      print(message);
+      // message = 'You selected edit for $name';
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => AddProductPage(isUpdating: true)));
+      // print(message);
     } else if (value == 'delete') {
       message = 'You selected delete for $name';
       print(message);
@@ -54,17 +56,16 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
               onSelected: (String value) {
                 actionPopUpItemSelected(value, product.name);
               },
-              itemBuilder:(context) => [
-                PopupMenuItem(
-                  child: popUpList('Edit', Icons.edit),
-                  value: 'edit',
-                ),
-                PopupMenuItem(
-                  child: popUpList('Delete', Icons.delete),
-                  value: 'delete',
-                ),
-              ]
-          )
+              itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: popUpList('Edit', Icons.edit),
+                      value: 'edit',
+                    ),
+                    PopupMenuItem(
+                      child: popUpList('Delete', Icons.delete),
+                      value: 'delete',
+                    ),
+                  ])
         ],
       ),
       body: SingleChildScrollView(
@@ -271,9 +272,14 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
 
   Widget popUpList(String text, IconData iconData) {
     return ListTile(
-      leading: Icon(iconData, color: Colors.black,),
-      title: Text(text, style: FontCollection.bodyBlackTextStyle,),
+      leading: Icon(
+        iconData,
+        color: Colors.black,
+      ),
+      title: Text(
+        text,
+        style: FontCollection.bodyBlackTextStyle,
+      ),
     );
   }
-
 }
