@@ -1,10 +1,8 @@
 import 'package:csc344_project/notifier/product_notifier.dart';
-import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'button_widget.dart';
 
@@ -19,15 +17,6 @@ class BuildAlertDialog extends StatefulWidget {
 
 class _BuildAlertDialogState extends State<BuildAlertDialog> {
   TextEditingController newCategory = TextEditingController();
-  // late String _selectedCategory;
-
-  // @override
-  // void initState() {
-  //   ProductNotifier productNotifier =
-  //       Provider.of<ProductNotifier>(context, listen: false);
-  //   _selectedCategory = productNotifier.categoriesList.first;
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +42,6 @@ class _BuildAlertDialogState extends State<BuildAlertDialog> {
                   String category =
                       widget.productNotifier.categoriesList[index];
                   return categoryList(category, widget.productNotifier, index);
-                  // catalogLists(category, productNotifier, index);
                 },
               ),
               Container(
@@ -104,10 +92,7 @@ class _BuildAlertDialogState extends State<BuildAlertDialog> {
                     ? Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: BuildPlainTextField(
-                          // validator: (value) {},
-                          // initialValue: category,
                           textEditingController: controller,
-                          // onSaved: (value) {},
                         ),
                       )
                     : Padding(

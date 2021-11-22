@@ -16,8 +16,6 @@ class ProductNotifier with ChangeNotifier {
 
   UnmodifiableListView<Product> get productList =>
       UnmodifiableListView(_productList);
-  // UnmodifiableListView<int> get eachProductSold =>
-  //     UnmodifiableListView(_eachProductSold);
 
   List<String> get categoriesList => _categoriesList;
 
@@ -38,19 +36,7 @@ class ProductNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  // getEachProductSold(int amount, Characters date) {
-  //   List<int> temp = [];
-  //
-  //   // amountProductSold.add(amount);
-  //   // print(amount);
-  //   // dateProductSold.add(int.parse(date.toString()));
-  //   // print(amountProductSold);
-  //   // print(dateProductSold);
-  //   notifyListeners();
-  // }
-
   String convertArray(List arr) {
-    // print(arr);
     return arr.join(',');
   }
 
