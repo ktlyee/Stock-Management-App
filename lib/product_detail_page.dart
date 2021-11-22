@@ -1,13 +1,20 @@
 import 'package:csc344_project/add_product.dart';
 import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/notifier/solditem_notifier.dart';
 import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/appbar.dart';
-import 'package:csc344_project/widgets/data_grid.dart';
+import 'package:csc344_project/service/predict_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:csc344_project/widgets/data_grid.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:csc344_project/service/api.dart';
+import 'package:dio/dio.dart';
+
 
 class InventoryDetailPage extends StatefulWidget {
   InventoryDetailPage({Key? key}) : super(key: key);
@@ -184,6 +191,8 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
   }
 
   Widget amountForecast() {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+
     return Column(
       children: [
         Container(
@@ -199,9 +208,22 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
             children: [
               Container(
                 padding: EdgeInsets.only(right: 10),
-                child: Text(
-                  '98',
-                  style: FontCollection.bodyBoldPurpleTextStyle,
+                child: FutureBuilder<double>(
+                  future: PredictModel.predictData({
+                    'x': productNotifier.convertArray(productNotifier.dateProductSold),
+                    'y':
+                    productNotifier.convertArray(productNotifier.amountProductSold),
+                    'x_predict': productNotifier.dateProductSold.length + 1
+                  }),
+                  builder: (context,AsyncSnapshot<double> snapshot) {
+                    if (snapshot.hasData){
+                      return Text("${snapshot.data}");
+                    }else{
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
                 ),
               ),
               Container(

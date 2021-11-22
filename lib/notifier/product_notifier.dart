@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class ProductNotifier with ChangeNotifier {
   List<int> amountProductSold = [];
-  List<int> dateProductSold = [];
+  List<Characters> dateProductSold = [];
   List<String> _categoriesList = [];
   List<Product> _productList = [];
   Product _currentProduct = Product();
@@ -38,12 +38,20 @@ class ProductNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  getEachProductSold(int amount, Characters date) {
-    amountProductSold.add(amount);
-    dateProductSold.add(int.parse(date.toString()));
-    print(amountProductSold);
-    print(dateProductSold);
-    notifyListeners();
+  // getEachProductSold(int amount, Characters date) {
+  //   List<int> temp = [];
+  //
+  //   // amountProductSold.add(amount);
+  //   // print(amount);
+  //   // dateProductSold.add(int.parse(date.toString()));
+  //   // print(amountProductSold);
+  //   // print(dateProductSold);
+  //   notifyListeners();
+  // }
+
+  String convertArray(List arr) {
+    // print(arr);
+    return arr.join(',');
   }
 
   addProduct(Product product) {
