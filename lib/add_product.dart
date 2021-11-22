@@ -4,6 +4,7 @@ import 'package:csc344_project/model/product.dart';
 import 'package:csc344_project/notifier/product_notifier.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
+import 'package:csc344_project/widgets/alertDialog.dart';
 import 'package:csc344_project/widgets/appbar.dart';
 import 'package:csc344_project/widgets/button_widget.dart';
 import 'package:csc344_project/widgets/dropdown.dart';
@@ -30,7 +31,6 @@ class _AddProductPageState extends State<AddProductPage> {
   String _imageUrl = '';
   late String _selectedCategory;
 
-  TextEditingController newCategory = TextEditingController();
 
   @override
   void initState() {
@@ -246,7 +246,7 @@ class _AddProductPageState extends State<AddProductPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return buildAlertDialog(productNotifier);
+        return BuildAlertDialog(productNotifier: productNotifier,);
       },
     );
   }
@@ -383,139 +383,60 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Widget buildAlertDialog(ProductNotifier productNotifier) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-      title: Text(
-        'Category',
-        style: FontCollection.bodyBlackTextStyle,
-      ),
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 2,
-        child: Column(
-          children: [
-            ListView.builder(
-              itemCount: productNotifier.categoriesList.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                String category = productNotifier.categoriesList[index];
-                return catalogLists(category, productNotifier, index);
-              },
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Add category',
-                style: FontCollection.bodyBlackTextStyle,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(bottom: 10),
-              alignment: Alignment.topLeft,
-              child: addCategory(productNotifier),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: buildButton('Save', () {
-                Navigator.pop(context);
-              }),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget catalogLists(
+  //   String category,
+  //   ProductNotifier productNotifier,
+  //   int index,
+  // ) {
+  //   TextEditingController controller = new TextEditingController();
+  //   controller.text = category;
+  //
+  //   return Container(
+  //     child: Row(
+  //       mainAxisSize: MainAxisSize.max,
+  //       children: [
+  //         Expanded(
+  //           flex: 10,
+  //           child: Padding(
+  //             padding: EdgeInsets.only(bottom: 20),
+  //             child: BuildPlainTextField(
+  //               // validator: (value) {},
+  //               // initialValue: category,
+  //               textEditingController: controller,
+  //               // onSaved: (value) {},
+  //             ),
+  //           ),
+  //         ),
+  //         Expanded(
+  //           flex: 2,
+  //           child: Container(
+  //             alignment: Alignment.topCenter,
+  //             child: InkWell(
+  //               onTap: () {
+  //                 productNotifier.categoriesList[index] =
+  //                     controller.text.trim();
+  //
+  //                 productNotifier.productList.forEach((product) {
+  //                   if (product.category == category) {
+  //                     updateProductModel(
+  //                       product.documentId,
+  //                       {'category': controller.text.trim()},
+  //                     );
+  //                     print(product.name);
+  //                   }
+  //                 });
+  //                 productNotifier.reloadProductList(productNotifier);
+  //               },
+  //               child: Icon(
+  //                 Icons.edit,
+  //                 color: Colors.black,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  Widget catalogLists(
-    String category,
-    ProductNotifier productNotifier,
-    int index,
-  ) {
-    TextEditingController controller = new TextEditingController();
-    controller.text = category;
-
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 10,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 20),
-              child: BuildPlainTextField(
-                // validator: (value) {},
-                // initialValue: category,
-                textEditingController: controller,
-                // onSaved: (value) {},
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.topCenter,
-              child: InkWell(
-                onTap: () {
-                  productNotifier.categoriesList[index] =
-                      controller.text.trim();
-
-                  productNotifier.productList.forEach((product) {
-                    if (product.category == category) {
-                      updateProductModel(
-                        product.documentId,
-                        {'category': controller.text.trim()},
-                      );
-                      print(product.name);
-                    }
-                  });
-                  productNotifier.reloadProductList(productNotifier);
-                },
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget addCategory(ProductNotifier productNotifier) {
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 10,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 20),
-              child: BuildPlainTextField(
-                textEditingController: newCategory,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.topCenter,
-              child: EditButton(
-                onClicked: () {
-                  productNotifier.categoriesList.add(newCategory.text.trim());
-                  _selectedCategory = productNotifier.categoriesList.last;
-                  Navigator.pop(context);
-                },
-                editText: 'Add',
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
