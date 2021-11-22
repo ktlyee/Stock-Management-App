@@ -49,6 +49,7 @@ Future<void> getProducts(ProductNotifier productNotifier) async {
 
   productNotifier.productList = _productList;
   productNotifier.categoriesList = _categoriesList;
+  productNotifier.amountOfProductSold.clear();
 
   _productList.forEach((product) {
     getEachSoldProduct(
@@ -92,14 +93,6 @@ Future<void> getEachSoldProduct(
     productName,
     category,
   );
-
-  // List<EachProductSold> _eachProductSold = [];
-  // snapshot.docs.forEach((document) {
-  //   EachProductSold productSold = EachProductSold.fromMap(document.data());
-  //   _eachProductSold.add(productSold);
-  // });
-
-  // productNotifier.eachProductSold = _eachProductSold;
 }
 
 // Add product

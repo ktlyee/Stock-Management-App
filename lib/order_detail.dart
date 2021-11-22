@@ -84,62 +84,64 @@ class _OrderDetailState extends State<OrderDetail> {
                             ),
                             children: [
                               ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: products.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      color: Colors.white,
-                                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Container(
-                                                  color: CollectionsColors.white,
-                                                  child: Text(
-                                                    products[index]["name"],
-                                                    style: FontCollection
-                                                        .bodyBlackTextStyle,
-                                                  ),
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: products.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    color: Colors.white,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 10),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                color: CollectionsColors.white,
+                                                child: Text(
+                                                  products[index]["name"],
+                                                  style: FontCollection
+                                                      .bodyBlackTextStyle,
                                                 ),
-                                                Container(
-                                                  color: CollectionsColors.white,
-                                                  child: Text(
-                                                    products[index]["amount"]
-                                                        .toString() +
-                                                        " unit",
-                                                    style: FontCollection
-                                                        .bodyBlackTextStyle,
-                                                  ),
+                                              ),
+                                              Container(
+                                                color: CollectionsColors.white,
+                                                child: Text(
+                                                  products[index]["amount"]
+                                                          .toString() +
+                                                      " unit",
+                                                  style: FontCollection
+                                                      .bodyBlackTextStyle,
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            alignment: Alignment.centerRight,
-                                            color: CollectionsColors.white,
-                                            child: Text(
-                                              products[index]["totalPrice"]
-                                                      .toString() +
-                                                  " baht",
-                                              style: FontCollection
-                                                  .bodyBlackTextStyle,
-                                            ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          color: CollectionsColors.white,
+                                          child: Text(
+                                            products[index]["totalPrice"]
+                                                    .toString() +
+                                                " baht",
+                                            style: FontCollection
+                                                .bodyBlackTextStyle,
                                           ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                separatorBuilder:(context, index) => Container(
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => Container(
                                   color: Colors.white,
                                   child: Divider(
                                     color: Colors.grey,
                                   ),
                                 ),
-                                  ),
+                              ),
                             ],
                           ),
                         );
@@ -208,5 +210,4 @@ class _OrderDetailState extends State<OrderDetail> {
           ),
         ));
   }
-
 }
