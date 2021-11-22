@@ -154,7 +154,16 @@ class _AddProductPageState extends State<AddProductPage> {
                   child: buildButton(
                     'Edit category',
                     () {
-                      displayShowDialog(context, productNotifier);
+                      setState(() async {
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return BuildAlertDialog(
+                              productNotifier: productNotifier,
+                            );
+                          },
+                        );
+                      });
                     },
                   ),
                 ),
@@ -240,17 +249,10 @@ class _AddProductPageState extends State<AddProductPage> {
     );
   }
 
-  Future<void> displayShowDialog(
-      BuildContext context, ProductNotifier productNotifier) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return BuildAlertDialog(
-          productNotifier: productNotifier,
-        );
-      },
-    );
-  }
+  // Future<void> displayShowDialog(
+  //     BuildContext context, ProductNotifier productNotifier) {
+  //   return
+  // }
 
   showImage() {
     if (_imageUrl == '' && _imageFile == null) {
