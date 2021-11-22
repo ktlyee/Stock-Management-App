@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   color: CollectionsColors.purple,
                 ),
                 child: LineChart(isIncome: true),

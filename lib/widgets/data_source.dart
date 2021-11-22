@@ -27,7 +27,7 @@ class DataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((dataGridCell) {
       return Container(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             dataGridCell.value.toString(),
