@@ -27,6 +27,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         child: Container(
           padding: EdgeInsets.all(20),
           child: ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: soldItemsNotifier.soldList.length,
