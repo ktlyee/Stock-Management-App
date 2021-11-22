@@ -21,10 +21,11 @@ class DataGrid extends StatefulWidget {
 
 class _DataGridState extends State<DataGrid> {
   late DataSource _dataSource;
-  List<int> _amount = [];
 
   @override
   Widget build(BuildContext context) {
+    ProductNotifier productNotifier = Provider.of<ProductNotifier>(context);
+
     return StreamBuilder(
       stream: getEachProductSold(widget.documentId),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -33,9 +34,9 @@ class _DataGridState extends State<DataGrid> {
         }
 
         _dataSource = DataSource(productSold: snapshot.data!.docs);
-        snapshot.data!.docs.map((e) => _amount.add(e['amount']));
-        // _amount.add(snapshot.data!.docs.map((e) => e['amount']));
-        print(_amount);
+        snapshot.data!.docs.forEach((document) {
+          productNotifier.getEachProductSold(document['amount']);
+        });
 
         return SfDataGridTheme(
           data: SfDataGridThemeData(headerColor: CollectionsColors.deepPurple),

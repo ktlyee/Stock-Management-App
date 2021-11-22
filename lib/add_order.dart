@@ -245,7 +245,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   value: amountOfEachProduct[i][index],
                   iconSize: 25,
                   increaseAmount: () {
-                    if (amountOfEachProduct[i][index] <=
+                    if (amountOfEachProduct[i][index] <
                         products[index]['amount']) {
                       setState(() {
                         amountOfEachProduct[i][index] += 1;

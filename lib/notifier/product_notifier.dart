@@ -6,7 +6,7 @@ import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
 
 class ProductNotifier with ChangeNotifier {
-  // List<EachProductSold> _eachProductSold = [];
+  List<int> eachProductSold = [];
   List<String> _categoriesList = [];
   List<Product> _productList = [];
   Product _currentProduct = Product();
@@ -15,7 +15,7 @@ class ProductNotifier with ChangeNotifier {
 
   UnmodifiableListView<Product> get productList =>
       UnmodifiableListView(_productList);
-  // UnmodifiableListView<EachProductSold> get eachProductSold =>
+  // UnmodifiableListView<int> get eachProductSold =>
   //     UnmodifiableListView(_eachProductSold);
 
   List<String> get categoriesList => _categoriesList;
@@ -32,13 +32,14 @@ class ProductNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  // set eachProductSold(List<EachProductSold> productSoldInWeek) {
-  //   _eachProductSold = productSoldInWeek;
-  //   notifyListeners();
-  // }
-
   set currentProduct(Product product) {
     _currentProduct = product;
+    notifyListeners();
+  }
+
+  getEachProductSold(int amount) {
+    eachProductSold.add(amount);
+    print(eachProductSold);
     notifyListeners();
   }
 
