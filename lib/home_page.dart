@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               buildCard(
                 Icons.info,
                 'See more detail',
-                    () {
+                () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => SalesPage(),
@@ -153,30 +153,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget allStat() {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 40, 0, 20),
-      child: IntrinsicHeight(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildStat('All', '320'),
-            VerticalDivider(
-              thickness: 1,
-              color: Colors.white,
-            ),
-            buildStat('Stock out', '52'),
-            VerticalDivider(
-              thickness: 1,
-              color: Colors.white,
-            ),
-            buildStat('Stock in', '90'),
-          ],
-        ),
-      ),
     );
   }
 
