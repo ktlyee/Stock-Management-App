@@ -34,8 +34,12 @@ class _DataGridState extends State<DataGrid> {
         }
 
         _dataSource = DataSource(productSold: snapshot.data!.docs);
+
         snapshot.data!.docs.forEach((document) {
-          productNotifier.getEachProductSold(document['amount']);
+          productNotifier.getEachProductSold(
+            document['amount'],
+            document['date'].toString().characters.getRange(0, 2),
+          );
         });
 
         return SfDataGridTheme(

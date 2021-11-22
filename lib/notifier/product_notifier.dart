@@ -6,7 +6,8 @@ import 'package:csc344_project/service/database.dart';
 import 'package:flutter/material.dart';
 
 class ProductNotifier with ChangeNotifier {
-  List<int> eachProductSold = [];
+  List<int> amountProductSold = [];
+  List<int> dateProductSold = [];
   List<String> _categoriesList = [];
   List<Product> _productList = [];
   Product _currentProduct = Product();
@@ -37,9 +38,11 @@ class ProductNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  getEachProductSold(int amount) {
-    eachProductSold.add(amount);
-    print(eachProductSold);
+  getEachProductSold(int amount, Characters date) {
+    amountProductSold.add(amount);
+    dateProductSold.add(int.parse(date.toString()));
+    print(amountProductSold);
+    print(dateProductSold);
     notifyListeners();
   }
 

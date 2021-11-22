@@ -31,7 +31,6 @@ class _AddProductPageState extends State<AddProductPage> {
   String _imageUrl = '';
   late String _selectedCategory;
 
-
   @override
   void initState() {
     ProductNotifier productNotifier =
@@ -42,7 +41,7 @@ class _AddProductPageState extends State<AddProductPage> {
     } else {
       _currentProduct = Product();
     }
-
+    _imageUrl = _currentProduct!.image;
     super.initState();
   }
 
@@ -246,7 +245,9 @@ class _AddProductPageState extends State<AddProductPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return BuildAlertDialog(productNotifier: productNotifier,);
+        return BuildAlertDialog(
+          productNotifier: productNotifier,
+        );
       },
     );
   }

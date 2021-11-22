@@ -15,7 +15,7 @@ Future<void> getSoldItems(
     SoldItemsNotifier soldItemsNotifier, String month) async {
   QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
       .collection(month)
-      .orderBy('date', descending: true)
+      .orderBy('date', descending: false)
       .limitToLast(7)
       .get();
 
