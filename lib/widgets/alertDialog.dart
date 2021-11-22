@@ -1,4 +1,5 @@
 import 'package:csc344_project/notifier/product_notifier.dart';
+import 'package:csc344_project/service/database.dart';
 import 'package:csc344_project/style/color.dart';
 import 'package:csc344_project/style/font_style.dart';
 import 'package:csc344_project/widgets/textfield.dart';
@@ -18,16 +19,15 @@ class BuildAlertDialog extends StatefulWidget {
 
 class _BuildAlertDialogState extends State<BuildAlertDialog> {
   TextEditingController newCategory = TextEditingController();
-  late String _selectedCategory;
+  // late String _selectedCategory;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    ProductNotifier productNotifier =
-        Provider.of<ProductNotifier>(context, listen: false);
-    _selectedCategory = productNotifier.categoriesList.first;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   ProductNotifier productNotifier =
+  //       Provider.of<ProductNotifier>(context, listen: false);
+  //   _selectedCategory = productNotifier.categoriesList.first;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -124,19 +124,35 @@ class _BuildAlertDialogState extends State<BuildAlertDialog> {
                   alignment: Alignment.topCenter,
                   child: (index == selectedIndex)
                       ? GestureDetector(
-                          onTap: () {},
+                          // onTap: () {
+                          //   productNotifier.categoriesList[index] =
+                          //       controller.text.trim();
+                          //   print(productNotifier.categoriesList);
+
+                          //   productNotifier.productList.forEach((product) {
+                          //     if (product.category == categoryName) {
+                          //       updateProductModel(
+                          //         product.documentId,
+                          //         {'category': controller.text.trim()},
+                          //       );
+                          //       print(product.name);
+                          //     }
+                          //   });
+                          //   productNotifier.reloadProductList(productNotifier);
+                          //   Navigator.pop(context);
+                          // },
                           child: Icon(
                             Icons.check,
                             color: Colors.black,
                           ),
                         )
                       : GestureDetector(
-                          onTap: () {
-                            selectedIndex = index;
-                            setState(() {
-                              print(index);
-                            });
-                          },
+                          // onTap: () {
+                          //   selectedIndex = index;
+                          //   setState(() {
+                          //     print(index);
+                          //   });
+                          // },
                           child: Icon(
                             Icons.edit,
                             color: Colors.black,
@@ -175,7 +191,7 @@ class _BuildAlertDialogState extends State<BuildAlertDialog> {
               child: EditButton(
                 onClicked: () {
                   productNotifier.categoriesList.add(newCategory.text.trim());
-                  _selectedCategory = productNotifier.categoriesList.last;
+                  // _selectedCategory = productNotifier.categoriesList.last;
                   Navigator.pop(context);
                 },
                 editText: 'Add',
