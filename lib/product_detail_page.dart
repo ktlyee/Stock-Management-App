@@ -217,7 +217,8 @@ class _InventoryDetailPageState extends State<InventoryDetailPage> {
                   }),
                   builder: (context,AsyncSnapshot<double> snapshot) {
                     if (snapshot.hasData){
-                      return Text("${snapshot.data}");
+                      double? predictRes = snapshot.data;
+                      return Text(predictRes!.toStringAsFixed(2), style: FontCollection.bodyBlackTextStyle,);
                     }else{
                       return const Center(
                         child: CircularProgressIndicator(),
