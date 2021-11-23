@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
+int saleIndex = 0;
+int incomeIndex = 0;
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -54,7 +57,9 @@ class _HomePageState extends State<HomePage> {
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
               ),
-              buildToggleButton(isSelected2),
+              buildToggleButton(
+                salesSelected,
+              ),
               buildCard(
                 Icons.info,
                 'See more detail',
@@ -67,7 +72,19 @@ class _HomePageState extends State<HomePage> {
                 },
                 Container(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: LineChart(isIncome: false),
+                  child: (saleIndex == 2)
+                      ? Center(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 80),
+                            child: Text(
+                              'Do not have enough data',
+                              style: FontCollection.bodyBoldTextStyle,
+                            ),
+                          ),
+                        )
+                      : LineChart(
+                          isIncome: false,
+                        ),
                 ),
               ),
               Container(
@@ -78,14 +95,28 @@ class _HomePageState extends State<HomePage> {
                   style: FontCollection.bodyBoldPurpleTextStyle,
                 ),
               ),
-              buildToggleButton(isSelected),
+              buildToggleButton(
+                incomeSelected,
+              ),
               Container(
                 padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: CollectionsColors.purple,
                 ),
-                child: LineChart(isIncome: true),
+                child: (incomeIndex == 2)
+                    ? Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 80),
+                          child: Text(
+                            'Do not have enough data',
+                            style: FontCollection.bodyBoldTextStyle,
+                          ),
+                        ),
+                      )
+                    : IncomeLineChart(
+                        isIncome: true,
+                      ),
               ),
             ],
           ),
@@ -183,10 +214,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  List<bool> isSelected = [true, false, false];
-  List<bool> isSelected2 = [true, false, false];
+  List<bool> salesSelected = [true, false, false];
+  List<bool> incomeSelected = [true, false, false];
 
-  Widget buildToggleButton(List<bool> isSelected) {
+  Widget buildToggleButton(
+    List<bool> isSelected,
+  ) {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -205,7 +238,14 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               'Weekly',
-              style: FontCollection.smallBodyTextStyle,
+              style: (isSelected[0] == true)
+                  ? FontCollection.smallBodyTextStyle
+                  : TextStyle(
+                fontFamily: RobotoFont,
+                fontWeight: FontWeight.w400,
+                fontSize: regularSize,
+                color: Colors.black54,
+              ),
             ),
           ),
           Container(
@@ -214,7 +254,14 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               'Monthly',
-              style: FontCollection.smallBodyTextStyle,
+              style: (isSelected[1] == true)
+                  ? FontCollection.smallBodyTextStyle
+                  : TextStyle(
+                fontFamily: RobotoFont,
+                fontWeight: FontWeight.w400,
+                fontSize: regularSize,
+                color: Colors.black54,
+              ),
             ),
           ),
           Container(
@@ -223,7 +270,14 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               'Yearly',
-              style: FontCollection.smallBodyTextStyle,
+              style: (isSelected[2] == true)
+                  ? FontCollection.smallBodyTextStyle
+                  : TextStyle(
+                      fontFamily: RobotoFont,
+                      fontWeight: FontWeight.w400,
+                      fontSize: regularSize,
+                      color: Colors.black54,
+                    ),
             ),
           ),
         ],
@@ -233,13 +287,52 @@ class _HomePageState extends State<HomePage> {
             for (int index = 0; index < isSelected.length; index++) {
               if (index == newIndex) {
                 isSelected[index] = true;
+                if (isSelected[0]) {
+                  if (isSelected == incomeSelected) {
+                    incomeIndex = 0;
+                  } else {
+                    saleIndex = 0;
+                  }
+                  setState(() {});
+                } else if (isSelected[1]) {
+                  if (isSelected == incomeSelected) {
+                    incomeIndex = 1;
+                  } else {
+                    saleIndex = 1;
+                  }
+                  setState(() {});
+                } else {
+                  if (isSelected == incomeSelected) {
+                    incomeIndex = 2;
+                  } else {
+                    saleIndex = 2;
+                  }
+                  setState(() {});
+                }
               } else {
                 isSelected[index] = false;
               }
             }
           });
+          checkIndex();
         },
       ),
     );
+  }
+
+  void checkIndex() {
+    if (saleIndex == 0 || incomeIndex == 0) {
+      setState(() {
+        print(saleIndex.toString() + 'check');
+      });
+    } else if (saleIndex == 1 || incomeIndex == 1) {
+      setState(() {
+        print(saleIndex.toString() + 'checked');
+      });
+    } else {
+      setState(() {
+        print(saleIndex.toString() + 'no check');
+      });
+    }
   }
 }
