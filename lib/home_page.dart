@@ -82,9 +82,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         )
-                      : LineChart(
-                          isIncome: false,
-                        ),
+                      : LineChart(),
                 ),
               ),
               Container(
@@ -114,9 +112,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       )
-                    : IncomeLineChart(
-                        isIncome: true,
-                      ),
+                    : IncomeLineChart(),
               ),
             ],
           ),
@@ -241,11 +237,11 @@ class _HomePageState extends State<HomePage> {
               style: (isSelected[0] == true)
                   ? FontCollection.smallBodyTextStyle
                   : TextStyle(
-                fontFamily: RobotoFont,
-                fontWeight: FontWeight.w400,
-                fontSize: regularSize,
-                color: Colors.black54,
-              ),
+                      fontFamily: RobotoFont,
+                      fontWeight: FontWeight.w400,
+                      fontSize: regularSize,
+                      color: Colors.black54,
+                    ),
             ),
           ),
           Container(
@@ -257,11 +253,11 @@ class _HomePageState extends State<HomePage> {
               style: (isSelected[1] == true)
                   ? FontCollection.smallBodyTextStyle
                   : TextStyle(
-                fontFamily: RobotoFont,
-                fontWeight: FontWeight.w400,
-                fontSize: regularSize,
-                color: Colors.black54,
-              ),
+                      fontFamily: RobotoFont,
+                      fontWeight: FontWeight.w400,
+                      fontSize: regularSize,
+                      color: Colors.black54,
+                    ),
             ),
           ),
           Container(
