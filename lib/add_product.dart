@@ -86,7 +86,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
     return Scaffold(
       appBar: MainAppBar(
-        appBarText: 'Add Product',
+        appBarText: widget.isUpdating ? 'Edit Product' : 'Add Product',
       ),
       body: SingleChildScrollView(
         child: Container(

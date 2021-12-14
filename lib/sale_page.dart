@@ -47,8 +47,8 @@ class _SalesPageState extends State<SalesPage> {
                         color: CollectionsColors.purple,
                       ),
                       child: ExpansionTile(
-                        // collapsedIconColor: CollectionsColors.white,
-                        // iconColor: CollectionsColors.white,
+                        collapsedIconColor: CollectionsColors.white,
+                        iconColor: CollectionsColors.white,
                         title: Text(
                           productNotifier.categoriesList[index],
                           style: FontCollection.bodyBoldTextStyle,
