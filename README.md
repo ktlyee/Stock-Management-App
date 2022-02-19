@@ -1,6 +1,6 @@
 # csc344_project
 
-A new Flutter project.
+The application is about stock management for SMEs starter to track their products such as amount of product, income, stock, and best seller product.
 
 ## Setup
 
