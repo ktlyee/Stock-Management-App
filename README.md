@@ -2,6 +2,14 @@
 
 A new Flutter project.
 
+## Setup
+
+After setup flutter with your prefered IDEs, clone the project
+`git clone`
+
+Run the project by
+`flutter run`
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
